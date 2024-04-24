@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="David Grzyb">
+  <meta name="description" content="">
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <title>Document</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+    .font-family-karla {
+      font-family: karla;
+    }
+
+    .bg-sidebar {
+      background: #166534;
+    }
+
+    .cta-btn {
+      color: #166534;
+    }
+
+    .upgrade-btn {
+      background: #166534;
+    }
+
+    .upgrade-btn:hover {
+      background: #166534;
+    }
+
+    .nav-item:hover {
+      background: #166534;
+    }
+
+    .account-link:hover {
+      background: #166534;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 font-family-karla flex"
+  style="background-image: url('https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg'); background-size: cover; background-position: center;">
+
+  
+
+  <aside class="relative bg-green-500 h-screen w-64 hidden sm:block shadow-xl">
+    <div class="p-6">
+
+      <div class="flex lg:flex-1  ">
+        <a href="{% url 'home' %}" class="">
+          <span class="sr-only">Your Company</span>
+          <img class="h-16 w-auto rounded-full" src="https://github.com/Thirawat64/project-farmers/blob/thirawat/farmers/static/logo.jpg?raw=true" alt="">
+        </a>
+      </div>
+
+      <a class="text-white text-3xl font-semibold uppercase hover:text-gray-300">
+        <i class="fa-solid fa-wheat-awn"></i>Farmer Support
+      </a>
+
+
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div
+          class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+          <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg" alt="Transistor" width="158"
+            height="48">
+        </div>
+      </div>
+
+    </div>
+
+    <nav class="text-white font-semibold pt-3">
+
+      <a href="{% url 'advice' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+        <i class="fas fa-tachometer-alt mr-3"></i>
+        เช่าอุปกรณ์
+      </a>
+
+      <a href="{% url 'index' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+        <i class="fas fa-align-left mr-3"></i>
+        ทำนายพืช
+      </a>
+
+
+    </nav>
+
+  </aside>
+
+  <div class="relative w-full flex flex-col h-screen overflow-y-hidden ">
+    <!-- Desktop Header -->
+    <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
+      <div class="w-1/2"></div>
+      <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
+        <button @click="isOpen = !isOpen"
+          class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+          <img src="https://www.iconpacks.net/icons/2/free-user-icon-3297-thumb.png">
+        </button>
+        <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+
+        <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+          {% if user.is_authenticated %}
+          <a href="{% url 'dashboard' %}" class="block px-4 py-2 account-link hover:text-white">{{ user.username }}</a>
+          <a href="{% url 'logout' %}" class="block px-4 py-2 account-link hover:text-white">ออกจากระบบ</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="block px-4 py-2 account-link hover:text-white">เข้าสู่ระบบ</a>
+          <a href="{% url 'register' %}" class="block px-4 py-2 account-link hover:text-white">สมัครสมาชิก</a>
+          {% endif %}
+          <a href="{% url 'home' %}" class="block px-4 py-2 account-link hover:text-white">หน้าแรก</a>
+          <a href="{% url 'help' %}" class="block px-4 py-2 account-link hover:text-white">ช่วยเหลือ</a>
+          <a href="{% url 'about' %}" class="block px-4 py-2 account-link hover:text-white">เกี่ยวกับ</a>
+        </div>
+      </div>
+
+    </header>
+    <!-- Mobile Header & Nav -->
+    <header x-data="{ isOpen: false }" class="w-full bg-green-500 py-5 px-6 sm:hidden">
+      <div class="flex items-center justify-between">
+        <a href="#" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Farmers support</a>
+        <button @click="isOpen = !isOpen" class="text-white text-3xl focus:outline-none">
+          <i x-show="!isOpen" class="fas fa-bars"></i>
+          <i x-show="isOpen" class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Dropdown Nav -->
+      <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+        <a href="{% url 'advice' %}"
+          class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-tachometer-alt mr-3"></i>
+          เช่าอุปกรณ์
+        </a>
+        <a href="{% url 'index' %}"
+          class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-align-left mr-3"></i>
+          ทำนายพืช
+        </a>
+        <a href="{% url 'show_data_save_predict' %}"
+          class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-table mr-3"></i>
+          ประวัติการทำนาย
+        </a>
+        <a href="#" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
+          <i class="fas fa-sticky-note mr-3"></i>
+          Blank Page
+        </a>
+        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-tablet-alt mr-3"></i>
+          Tabbed Content
+        </a>
+        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-calendar mr-3"></i>
+          Calendar
+        </a>
+
+        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-cogs mr-3"></i>
+          Support
+        </a>
+        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-user mr-3"></i>
+          My Account
+        </a>
+        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          <i class="fas fa-sign-out-alt mr-3"></i>
+          Sign Out
+        </a>
+      </nav>
+    </header>
+    {% block content %}
+
+    {% endblock %}
+    <div class="text-9xl text-green-900 text-center mt-20 ">
+      <div>Farmer support</div>
+      <img src="" alt="">
+    </div>
+  </div>
+  </div>
+
+  <!-- AlpineJS -->
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+    integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+</body>
+
+</html>

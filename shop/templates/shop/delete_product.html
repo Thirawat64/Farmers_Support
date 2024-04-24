@@ -1,0 +1,285 @@
+<!-- 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        margin-top: 50px;
+        margin-left: 50px;
+    }
+
+    .name{
+        display: flex;
+        padding-left: 2rem;
+    }
+    .location {
+        padding-left: 2rem;
+    }
+</style>
+
+
+
+<div class="container ">
+    <h3>รายละเอียดอุปกรณ์</h3>
+    <div class="name">
+        <p>{{ user.username }}</p>
+        <input type="text" id="location" name="location" placeholder="กรอกที่อยู่">
+        <input type="tel" id="number" name="number" placeholder="กรอกเบอร์โทรศัพท์" minlength="10" maxlength="10"
+            pattern="\d{10}" title="กรุณากรอกเบอร์โทรศัพท์ 10 ตัวเลข" required><br>
+
+    </div><br>
+
+    <h3>ที่อยู่ในการคืนอุปกรณ์</h3>
+    <div class="location">
+        <input type="text" id="location" name="location" placeholder="กรอกที่อยู่">
+    </div><br>
+
+    <div class="detel">
+        <h3>ข้อมูลอุปกรณ์</h3>
+
+        <div class="image">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label for="imageUpload">ภาพอุปกรณ์:</label>
+                <input type="file" id="imageUpload" name="imageUpload" accept="image/*">
+                <input type="submit" value="Upload">
+            </form>
+        </div>
+
+        <div class="video">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label for="videoUpload">วิดีโออุปกรณ์:</label>
+                <input type="file" id="videoUpload" name="videoUpload" accept="video/*">
+                <input type="submit" value="Upload">
+            </form>
+        </div>
+
+        <div class="name">
+            <label for="name">ชื่ออุปกรณ์:</label>
+            <input type="name" id="name" name="name" placeholder="ชื่ออุปกรณ์">
+        </div>
+
+        <div class="type">
+            <label for="type">ประเภทอุปกรณ์:</label>
+            <input type="type" id="type" name="type" placeholder="ประเภทอุปกรณ์">
+        </div>
+
+        <div class="detels">
+            <label for="type">รายละเอียดอุปกรณ์:</label>
+            <input type="type" id="detels" name="detels" placeholder="รายละเอียดอุปกรณ์">
+        </div>
+
+        <div class="price">
+            <label for="price">ราคา:</label>
+            <input type="number" id="price" name="price" step="0.01" placeholder="ราคา" required>
+
+        </div><br>
+
+        <div class="button_sell">
+            <form action="{% url 'show_product' %}">
+                <button type="submit">ยืนยันปล่อยเช่า</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .menusearch {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .searchfield {
+        width: 500px;
+        height: 30px;
+    }
+
+    .content_type {
+        width: 200px;
+        height: 600px;
+        overflow: hidden;
+        background-color: D9D9D9;
+        display: flex;
+        justify-content: center;
+
+
+
+    }
+
+    h4 {
+        margin-top: 1rem;
+    }
+
+    .shop_product {
+
+        width: 220px;
+        height: 200px;
+        background-color: D9D9D9;
+        padding: 10px;
+        margin: 0 1rem;
+
+
+
+    }
+
+    .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        margin-top: 1rem;
+
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .content {
+        width: 100%;
+        height: 78%;
+
+
+    }
+
+    .sell_product {
+
+        margin-left: 80rem;
+        margin-top: -3rem;
+
+    }
+
+    .sell_product,
+    button {
+        width: 110px;
+        height: 40px;
+        background-color: 075650;
+        color: white;
+    }
+
+    p {
+        font-size: small;
+    }
+
+    .detall {
+        padding: 2rem 0;
+    }
+</style>
+
+
+<div class="content">
+    <div class="search_basket">
+        <div class='menusearch'>
+            <form action='/search' class='searchform' method='get'>
+                <input class='searchfield' id='q' name='q'
+                    onblur='if(this.value==&apos;&apos;)this.value=this.defaultValue;'
+                    onfocus='if(this.value==this.defaultValue)this.value=&apos;&apos;' type='text'
+                    value='ค้นหาอุปกรณ์' />
+                <input class='searchbutton'
+                    src='https://1.bp.blogspot.com/-N_4TWVUmXv4/UDdKJf5NwCI/AAAAAAAAIgY/AGrKXgwkrTo/s1600/tombolcari.gif'
+                    style='cursor:pointer;vertical-align:top' type='image' value='Go' />
+
+                <div class="basket">
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content_type">
+            <h4>ค้นหาตามหมวดหมู่</h4>
+        </div>
+
+
+        {% for i in allproduct %}
+
+        <div class="shop_product">
+
+
+            <div class="img">
+                <img class="image{% if forloop.first %} active{% endif %}" src="{{ image.image.url }}" alt=" Image">
+            </div>
+
+            <div class="detall">
+                {% if i.id %}
+                <h3>ชื่อ: <a href="{% url 'Showdetall_product' i.id %}">{{ i.product_name }} </a></h3>
+                {% else %}
+                <p>ชื่อ: No ID available for this product</p>
+                {% endif %}
+                <p>ราคา: {{i.product_price}} </p>
+                <p>สถานะอุปกรณ์: {{i.product_statustype}}</p>
+                <p>ที่อยู่อุปกรณ์: {{i.product_location}}</p>
+
+            </div>
+
+
+        </div>
+        {% endfor %}
+    </div>
+    <div class="sell_product">
+        <form action="{% url 'sell_product' %}">
+            <button type="submit">ปล่อยเช่าอุปกรณ์</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+<body>
+
+
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                dy=".3em">Thumbnail</text>
+                        </svg>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {% if i.id %}
+                            <h3>ชื่อ: <a href="{% url 'Showdetall_product' i.id %}">{{ i.product_name }} </a></h3>
+                            {% else %}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </div>
+                                <small class="text-body-secondary">9 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body> -->

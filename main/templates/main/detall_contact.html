@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+{% block content %} 
+<style>
+    *{
+     margin: 0;
+     padding: 0;
+ } 
+
+ .content{
+    width: 100%;
+    height: 100%;
+ }
+
+ .hello{
+    background-color:ABA0A0 ;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .detall{
+    
+    width: 100%;
+    height: 100%;
+    
+
+    
+ }
+ .detall,h3{
+    
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    
+ }
+ p{
+    margin: 2rem 0;
+ }
+
+
+ </style>
+
+<div class="content">
+    <div class="hello">
+        <h3>สวัสดีมีไรให้ช่วยอะเป่า</h3>
+    </div>
+    <div class="detall">
+        <h3>จะติดต่อฉันได้อย่างไร</h3>
+        <p>
+            คุณสามารถติดต่อฝ่ายบริการลูกค้าได้ทุกวันตลอด 24 ชั่วโมง ผ่านทาง 2 ช่องทาง ดังนี้
+        </p>
+        <p>1.Email: faemers_support@gmail.com</p>
+        <p>2.Contact: T.0990274190</p>
+    </div>
+</div>
+
+{% endblock %}

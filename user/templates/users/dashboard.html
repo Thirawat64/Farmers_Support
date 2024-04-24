@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+
+
+<body class=" "
+    style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg);">
+    <div class="w-full h-full flex justify-center items-center">
+        <div class="relative rounded overflow-hidden  w-1/2 h-full  bg-gray-900 bg-opacity-50 shadow-lg">
+            <div class="absolute inset-0 bg-gray-900 bg-opacity-50 filter blur-2xl "></div>
+            <div class="relative z-10 mt-10 text-center text-white">
+                <div class="mb-8 ">
+                    <h4 class=" text-xl">จัดการกับบัญชี-ประวัติการเช่า</h4>
+                </div>
+                <div class="mb-8 text-left flex justify-between">
+                    <div class="pl-4">
+                        <p>ข้อมูลส่วนตัว</p>
+                        <div class="name  pl-8">{{ user.username }}</div>
+                        <div class="email pl-8 ">{{user.email}}</div>
+                    </div>
+                </div>
+                <div class="mb-8 text-left pl-4 ">
+                    <p class="">ชื่อ-ที่อยู่</p>
+                    <div class="name  pl-8">{{ user.first_name }}</div>
+                    <div class="name  pl-8">{{ user.last_name }}</div>
+                    <div class="loca  pl-8">{{user.Profile.first.locations}}</div>
+                </div>
+                <div class="mb-8 text-left pl-4 ">
+                    <p class="">เบอร์โทรศัพท์</p>
+                    <div class="loca  pl-8">{{user.Profile.first.phon_numbers}}</div>
+                </div>
+                <div class="mb-8 text-left pl-4 ">
+                    <p class="">รายการเช่าอุปกรณ์ล่าสุด</p>
+                </div>
+                <div class="mb-8 text-left pl-4 ">
+                    <p class="">รายการปล่อยเช่าอุปกรณ์ล่าสุด</p>
+                </div>
+                <a href="{% url 'editprofile' %}">
+                    <div
+                        class="my-2 flex h-12 items-center justify-center rounded-lg text-white bg-slate-700 hover:bg-slate-900 m-20">
+                        <div class="flex items-center">
+                            <div class="ml-2 ">
+                                <div class=""><i class="fa-solid fa-user-pen"></i>&nbsp;&nbsp;แก้ไขโปรไฟล์</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+{% endblock %}

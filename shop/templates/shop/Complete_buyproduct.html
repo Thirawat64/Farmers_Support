@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container mx-auto mt-12 text-center">
+    <i class="fas fa-check-circle text-green-500 text-9xl mb-8"></i>
+    <h2 class="text-3xl font-bold">การเช่าสำเร็จ</h2>
+    <div class="mt-8">
+        <a href="/shop/product/" class="btn btn-success bg-green-300">เช่าอุปกรณ์เพิ่มเติม</a>
+    </div>
+</div>
+
+<div class="container mx-auto w-2/2 p-12 mt-12 mb-12">
+    <div class="bg-gray-100">
+        <div class="grid grid-cols-3 p-5">
+            <div class="font-bold">ที่อยู่ผู้ปล่อยเช่า</div>
+            <div class="font-medium text-sm">ที่อยู่ผู้ปล่อยเช่า</div>
+            <div class="font-medium text-sm">โทร</div>
+
+        </div>
+        <div class="grid grid-cols-3 p-5">
+            <div class="font-bold"></div>
+            <div class="font-medium text-sm">{{product.product_location}}</div>
+            <div class="font-medium text-sm">{{ product.phon_number }}</div>
+        </div>
+    </div>
+
+    <div class="bg-gray-100 mt-10">
+        <div class="font-bold p-5">สั่งจอง</div>
+
+        <div class="grid grid-cols-3 p-5">
+            <div class="font-bold"></div>
+            <div class="font-medium text-sm">วันที่สั่งซื้อ</div>
+            <div class="font-medium text-sm">ราคา</div>
+        </div>
+        <div class="p-5">
+            <div class="grid grid-cols-3 p-5 bg-white">
+                <div class="font-medium text-sm">{{product.product_name}}</div>
+                <div class="font-medium text-sm">{{ product.datetime }}</div>
+                <div class="font-medium text-sm">{{ product.product_price|intcomma }}</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="invoice-footer mt-12 text-center">
+        <p class="text-5xl font-bold">Thank You</p>
+    </div>
+</div>
+
+
+
+{% endblock %}

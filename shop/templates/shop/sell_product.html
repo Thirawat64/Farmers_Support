@@ -1,0 +1,104 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form method="post" action="" enctype="multipart/form-data" class="container ml-48 mt-16">
+    {% csrf_token %}
+
+    <h3 class="text-2xl font-semibold mb-4">รายระเอียดอุปกรณ์</h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="col-span-full md:col-span-1 flex">
+            <h3 class="text-1xl font-semibold mb-4">ที่อยู่อุปกรณ์:</h3>
+            <input type="text" id="product_location_1" name="product_location"
+                value="{{ allproduct_instance.product_location }}" class="form-input bg-gray-300  h-6">
+        </div>
+
+        <div class="col-span-full md:col-span-1">
+            <label for="phon_number_1" class="col-auto ms-5">เบอร์โทร:</label>
+            <input type="text" id="phon_number_1" name="phon_number" value="{{ allproduct_instance.phon_number }}"
+                class="form-input bg-gray-300">
+        </div>
+    </div><br>
+
+    <label for="exampleInputEmail1" class="form-label ms-0 col-12 mt-3 ">
+        <h3 class="text-1xl font-semibold mb-4">ที่อยู่ในการคืนอุปกรณ์</h3>
+    </label>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="col-span-full md:col-span-2">
+            <label for="product_location_2" class="col-auto ms-5">ที่อยู่อุปกรณ์:</label>
+            <input type="text" id="product_location_2" name="product_location"
+                value="{{ allproduct_instance.product_location }}" class="form-input bg-gray-300">
+        </div>
+    </div><br>
+
+    <label for="exampleInputEmail1" class="form-label ms-0 col-12 mt-3">
+        <h3 class="text-1xl font-semibold mb-4">ข้อมูลอุปกรณ์</h3>
+    </label>
+
+    <label for="image" class="col-auto ms-5 mb-0">ภาพอุปกรณ์:</label>
+    <input type="file" id="image" name="image" class="form-input bg-gray-300">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="col-span-full md:col-span-1">
+            <label for="product_name" class="col-auto ms-5 mt-3">ชื่ออุปกรณ์:</label>
+            <input type="text" id="product_name" name="product_name" value="{{ allproduct_instance.product_name }}"
+                class="form-input mt-3 bg-gray-300">
+        </div>
+
+        <div class="col-span-full md:col-span-1">
+            <label for="product_statustype" class="col-auto ms-5 mt-3">ประเภทอุปกรณ์:</label>
+            <input type="text" id="product_statustype" name="product_statustype"
+                value="{{ allproduct_instance.product_statustype }}" class="form-input mt-3 bg-gray-300">
+        </div>
+    </div>
+
+    <label for="product_status" class="col-auto ms-5 mt-3">สถานะอุปกรณ์:</label>
+    <select id="product_status" name="product_status" class="form-select mt-3 bg-gray-300">
+        {% for status in status %}
+        <option value="{{ status.id }}" {% if allproduct_instance.product_status == status %}selected{% endif %}>{{status.name_Status }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="col-span-full md:col-span-1">
+            <label for="product_size" class="col-auto ms-5 mt-3">ขนาดอุปกรณ์:</label>
+            <input type="text" id="product_size" name="product_size" value="{{ allproduct_instance.product_size }}"
+                class="form-input mt-3 bg-gray-300">
+        </div>
+
+        <div class="col-span-full md:col-span-1">
+            <label for="product_detail" class="col-auto ms-5 mt-3">รายระเอียดอุปกรณ์:</label>
+            <textarea id="product_detail" name="product_detail"
+                class="form-textarea mt-3 bg-gray-300">{{ allproduct_instance.product_detail }}</textarea>
+        </div>
+
+        <div>
+            <label for="datetime">วันที่ต้องการปล่อยเช่า:</label>
+            <input type="date" id="datetime" name="datetime" class="form-textarea mt-3 bg-gray-300">
+        </div>
+
+        <div>
+            <label for="datetime">สิ้นสุดวันปล่อยเช่า:</label>
+            <input type="date" id="datetime" name="lastdate" class="form-textarea mt-3 bg-gray-300">
+        </div>
+    </div>
+    <div class="flex">
+        <label for="product_price" class="form-label ms-0 col-12 mt-3">ราคา:</label>
+        <input type="number" id="product_price" name="product_price" value="{{ allproduct_instance.product_price }}"
+            class="form-input mt-3 bg-gray-300">
+
+        <div class="col-span-full md:col-span-2">
+            <label for="product_location_2" class="col-auto ms-5 mt-3">จำนวนที่ต้องการปล่อย:</label>
+            <input type="number" id="quantity" name="quantity" value="{{ allproduct_instance.quantity }}"class="form-input bg-gray-300">
+        </div>
+    </div>
+    <div class="sell_product fixed bottom-4 right-4 ">
+        <button type="submit" class="bg-blue-500  text-white px-4 py-2 rounded-lg">ยืนยันปล่อยเช่า</button>
+    </div>
+</form>
+
+
+{% endblock %}
