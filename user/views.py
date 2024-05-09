@@ -52,3 +52,4 @@ def editprofile(request):
     return render(request,'users/edit_profile.html',{'form':form,'profile':profile})
 
 
+    

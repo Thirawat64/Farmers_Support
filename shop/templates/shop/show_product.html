@@ -15,7 +15,11 @@
                     class="bg-green-600 hover:bg-green-800 px-4 py-2 rounded-r-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-700">ค้นหา</button>
             </form>
         </div>
+        
         <div class=" flex justify-end mx-7 mt-5">
+            <form action="{% url 'sell_product' %}">
+                <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded-lg mr-8 text-sm">ปล่อยเช่าอุปกรณ์</button>
+            </form>
             <a href="{% url 'cart' %}">
                 <i class="fa-solid fa-cart-plus text-3xl"></i>
             </a>
@@ -28,24 +32,19 @@
 </div>
 
 <div class="lg:flex">
-    <div class="w-full lg:w-96 bg-gray-400">
+    <div class="w-full lg:w-72 h-screen bg-gray-400">
         <p class="text-lg font-semibold mb-4 text-center">หมวดหมู่</p>
 
-        <ul class="text-center flex justify-between lg:grid lg:grid-cols-1 p-2">
+        <ul class="text-center flex justify-between lg:grid lg:grid-cols-1 p-2 ">
             <li><a href="#">หมวดหมู่ 1</a></li>
             <li><a href="#">หมวดหมู่ 2</a></li>
             <li><a href="#">หมวดหมู่ 3</a></li>
         </ul>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 m-2 col-start-2">
-        <div class="sell_product fixed bottom-4 right-4 md:pb-28 lg:pb-4 ">
-            <form action="{% url 'sell_product' %}">
-                <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded-lg">ปล่อยเช่าอุปกรณ์</button>
-            </form>
-        </div>
         {% for i in allproduct %}
         {% if i.quantity > 0 %}
-        <a class="hover:scale-105 transform transition duration-300 ease-in-out "
+        <a class="hover:scale-105 transform transition h-fit duration-300 ease-in-out "
             href="{% url 'Showdetall_product' i.id %}">
             <div class="border bg-green-100 rounded-lg h-full">
                 <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
