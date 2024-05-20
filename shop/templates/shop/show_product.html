@@ -32,7 +32,7 @@
 </div>
 
 <div class="lg:flex">
-    <div class="w-full lg:w-72 h-screen bg-gray-400">
+    <div class="w-full lg:h-screen lg:w-72 bg-gray-400">
         <p class="text-lg font-semibold mb-4 text-center">หมวดหมู่</p>
 
         <ul class="text-center flex justify-between lg:grid lg:grid-cols-1 p-2 ">
@@ -65,7 +65,7 @@
         </a>
         {% else %}
 
-        <div class="border bg-red-300 rounded-lg h-full">
+        <div class="border bg-red-300 rounded-lg h-fit">
             <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
             <div class="p-4">
                 <h5 class="text-lg font-semibold">
@@ -78,6 +78,7 @@
                 <p class="text-gray-800">ราคา: {{ i.product_price }}</p>
                 <p class="text-gray-800">สถานะอุปกรณ์: หมด</p>
                 <p class="text-gray-800">ที่อยู่อุปกรณ์: {{ i.product_location }}</p>
+                <p class="text-gray-800">จำนวน: {{ i.quantity }} ชิ้น</p>
             </div>
         </div>
 

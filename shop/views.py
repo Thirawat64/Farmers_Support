@@ -68,11 +68,12 @@ def Buy_product(req):
 
 @login_required
 def Sell_product(req):
-    status = Status.objects.all()
     form = UploadForm()
+    status = Status.objects.all()
     if req.method == 'POST':
         form = UploadForm(req.POST, req.FILES)
         if form.is_valid():
+            form.save(commit=False).user = req.user
             form.save()
             return redirect('show_product')
     else:

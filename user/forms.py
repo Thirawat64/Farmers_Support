@@ -8,12 +8,12 @@ class RegisterForm(UserCreationForm):
         
         fields = UserCreationForm.Meta.fields +('email',) 
 
-class EditForm(UserChangeForm):
+class EditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name','last_name','email']
 
-class Locations(UserChangeForm):
+class Locations(forms.ModelForm):
     class Meta:
         model = User_profile
         fields = ['locations','phon_numbers']

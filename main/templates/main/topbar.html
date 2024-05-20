@@ -17,6 +17,16 @@
 
   <nav class="text-white font-semibold pt-3">
 
+    <a href="{% url 'login' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+      <i class="fas fa-tachometer-alt mr-3"></i>
+      เข้าสู่ระบบ
+    </a>
+    
+    <a href="{% url 'register' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+      <i class="fas fa-tachometer-alt mr-3"></i>
+      สมัครสมาชิก
+    </a>
+    
     <a href="{% url 'advice' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
       <i class="fas fa-tachometer-alt mr-3"></i>
       เช่าอุปกรณ์

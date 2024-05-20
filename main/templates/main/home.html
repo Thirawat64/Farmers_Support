@@ -130,46 +130,32 @@
 
       <!-- Dropdown Nav -->
       <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}"
+          class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          ออกจากระบบ
+        </a>
+        
+        {% else %}
+        <a href="{% url 'login' %}"
+          class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          เข้าสู่ระบบ
+        </a>
+        <a href="{% url 'register' %}"
+          class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+          สมัครสมาชิก
+        </a>
+        {% endif %}
         <a href="{% url 'advice' %}"
           class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-tachometer-alt mr-3"></i>
           เช่าอุปกรณ์
         </a>
         <a href="{% url 'index' %}"
           class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-align-left mr-3"></i>
           ทำนายพืช
         </a>
-        <a href="{% url 'show_data_save_predict' %}"
-          class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-table mr-3"></i>
-          ประวัติการทำนาย
-        </a>
-        <a href="#" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
-          <i class="fas fa-sticky-note mr-3"></i>
-          Blank Page
-        </a>
-        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-tablet-alt mr-3"></i>
-          Tabbed Content
-        </a>
-        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-calendar mr-3"></i>
-          Calendar
-        </a>
-
-        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-cogs mr-3"></i>
-          Support
-        </a>
-        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-user mr-3"></i>
-          My Account
-        </a>
-        <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-          <i class="fas fa-sign-out-alt mr-3"></i>
-          Sign Out
-        </a>
+        
+        
       </nav>
     </header>
     {% block content %}

@@ -2,37 +2,25 @@
 
 {% block content %}
 
-<div class="bg-gray-300 w-1/2 h-3/5 flex flex-col items-center justify-center mx-auto mt-16 rounded-lg">
-    <div class="flex justify-center mt-4">
-
-
+<div class="bg-gray-300 lg:w-1/2 lg:h-3/5 flex flex-col items-center justify-center mx-auto lg:mt-16 rounded-lg w-full h-full p-4 lg:p-8">
+    <div class="w-full max-w-md">
         <form action="{% url 'search' %}" method="post">
             {% csrf_token %}
-            <div class="flex justify-center">
-                <div class="grid grid-cols-1 gap-4">
-                    <div>
-                        <label for="location" class="mr-4">สถานที่ใช้งาน:</label>
-                        <input type="search" name="search" class="border rounded px-2 py-1">
-                    </div>
-                    <div class="">
-                        <label for="time" class="mr-4">วันที่ใช้งาน:</label>
-                        <input type="date" id="time" name="time" class="border rounded px-2 py-1">
-                    </div>
-                    <div class="text-center">
-
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">ค้นหา</button>
-
-                    </div>
+            <div class="grid grid-cols-1 gap-6 my-8">
+                <div class="flex flex-col lg:flex-row lg:items-center">
+                    <label for="location" class="mb-2 lg:mb-0 lg:mr-4 w-full lg:w-40 text-left lg:text-right font-semibold">สถานที่ใช้งาน:</label>
+                    <input type="search" name="search" class="border rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex flex-col lg:flex-row lg:items-center">
+                    <label for="time" class="mb-2 lg:mb-0 lg:mr-4 w-full lg:w-40 text-left lg:text-right font-semibold">วันที่ใช้งาน:</label>
+                    <input type="date" id="time" name="time" class="border rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex justify-center mt-10">
+                    <button type="submit" class="lg:w-28 w-36 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">ค้นหา</button>
                 </div>
             </div>
         </form>
     </div>
-
-
 </div>
-
-
-
-
 
 {% endblock %}

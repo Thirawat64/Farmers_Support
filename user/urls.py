@@ -15,6 +15,9 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('dashboard/',view=views.dashboard , name='dashboard'),
     path('editprofile/',view=views.editprofile , name='editprofile'),
+    path('add_profile/',view=views.add_profile , name='add_profile'),
+    path('Edit_buy_product/',view=views.Edit_buy_product , name='Edit_buy_product'),
+    path('Edit_sell_product/',view=views.Edit_sell_product , name='Edit_sell_product'),
     
     
 

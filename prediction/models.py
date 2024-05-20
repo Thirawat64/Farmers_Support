@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class AreaPrediction(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name_area = models.CharField(max_length=100,blank=True, null=True)
     ph_value = models.FloatField()
     max_temperature = models.FloatField()
     humidity = models.FloatField()
