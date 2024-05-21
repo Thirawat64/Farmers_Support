@@ -6,30 +6,51 @@
 {% load crispy_forms_tags %}
 
 
-<body class=" "
-    style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg);">
-    <div class="w-full h-full flex justify-center items-center">
-        <div class="relative rounded overflow-hidden  w-1/2 h-full  bg-gray-900 bg-opacity-50 shadow-lg">
-            <div class="absolute inset-0 bg-gray-900 bg-opacity-50 filter blur-2xl "></div>
-            <div class="relative z-10 mt-10 text-center text-black">
-                <div class="text-center text-xl font-bold">
-                    <p>เพิ่มโปรไฟล์</p>
-                </div>
-                
-                <div class="flex justify-center gap-4 mt-10 mb-10 text-white">
-                    <div class="max-w-96">
-                        <form action="" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ form|crispy }}
-                            {{ profile|crispy }}
-                            <div class="mt-2 text-center">
-                                <button type="submit" class="bg-yellow-600 text-gray-800 rounded hover:scale-105 border border-gray-500 p-2 px-5">บันทึก</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+<body class="min-h-screen bg-cover bg-center"
+    style="background-image: url('https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg');">
+    <div class="flex items-center justify-center min-h-screen bg-gray-900 bg-opacity-50">
+        <div class="relative w-full max-w-md p-8 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg">
+            <div class="text-center text-white">
+                <h1 class="text-2xl font-bold">เพิ่มโปรไฟล์</h1>
             </div>
-            
+            <form action="" method="post" class="mt-8 space-y-6">
+                {% csrf_token %}
+                
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    <div class="flex flex-col">
+                        <label for="user_1" class="text-lg font-medium mb-2 text-white" >ชื่อ:</label>
+                        <input type="text" id="user_1" name="first_name" value="{{user.first_name}}" class="form-input bg-gray-100 h-10 rounded-md">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="user_1" class="text-lg font-medium mb-2 text-white">นามสกุล:</label>
+                        <input type="text" id="user_1" name="last_name" value="{{user.last_name}}" class="form-input bg-gray-100 h-10 rounded-md">
+                    </div>
+                    <!-- <div class="flex flex-col">
+                        <label for="user_2" class="text-lg font-medium mb-2 text-white">นามสกุล:</label>
+                        <input type="text" id="user_2" name="phon_number" value="{{ user.Profile.first.phon_numbers }}" class="form-input bg-gray-100 h-10 rounded-md">
+                    </div> -->
+                    <div class="flex flex-col">
+                        <label for="email_1" class="text-lg font-medium mb-2 text-white">อีเมล:</label>
+                        <input type="text" id="email_1" name="email" value="{{ user.email }}" class="form-input bg-gray-100 h-10 rounded-md">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="locations_1" class="text-lg font-medium mb-2 text-white">ที่อยู่:</label>
+                        <input type="text" id="locations" name="locations" value="{{ user.Profile.first.locations }}" class="form-input bg-gray-100 h-10 rounded-md">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="phon_numbers_1" class="text-lg font-medium mb-2 text-white">เบอร์โทรศัพท์:</label>
+                        <input type="text" id="phon_numbers" name="phon_numbers" value="{{ user.Profile.first.phon_numbers }}" class="form-input bg-gray-100 h-10 rounded-md">
+                    </div>
+
+                </div>
+                <div class="text-center">
+                    <button type="submit"
+                        class="px-4 py-2 font-bold text-gray-800 bg-yellow-500 rounded-lg hover:bg-yellow-600 hover:scale-105 transform transition">
+                        บันทึก
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </body>

@@ -4,7 +4,8 @@
 {% block content %}
 
 
-<body style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg);">
+<body class="min-h-screen bg-cover bg-center"
+    style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg);">
     <div class="w-full h-full flex justify-center  mt-20 ">
         <div class="relative rounded overflow-hidden  w-1/2 h-fit  bg-gray-900 bg-opacity-50 shadow-lg">
             <div class="absolute inset-0 bg-gray-900 bg-opacity-50 filter blur-2xl h-full "></div>
@@ -21,8 +22,7 @@
                 </div>
                 <div class="mb-8 text-left pl-4 ">
                     <p class="">ชื่อ-ที่อยู่</p>
-                    <div class="name  pl-8">{{ user.first_name }}</div>
-                    <div class="name  pl-8">{{ user.last_name }}</div>
+                    <div class="name  pl-8">{{ user.first_name }} {{ user.last_name }}</div>
                     <div class="loca  pl-8">{{user.Profile.first.locations}}</div>
                 </div>
                 <div class="mb-8 text-left pl-4 ">
@@ -42,7 +42,7 @@
 
 
                 </div>
-                
+
                 <div class="mb-8 text-left pl-4 ">
 
                     <p class="">รายการปล่อยเช่าอุปกรณ์ล่าสุด</p>

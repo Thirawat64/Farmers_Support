@@ -47,7 +47,7 @@
 <body class="bg-gray-100 font-family-karla flex"
   style="background-image: url('https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg'); background-size: cover; background-position: center;">
 
-  
+
 
   <aside class="relative bg-green-500 h-screen w-64 hidden sm:block shadow-xl">
     <div class="p-6">
@@ -55,7 +55,8 @@
       <div class="flex lg:flex-1  ">
         <a href="{% url 'home' %}" class="">
           <span class="sr-only">Your Company</span>
-          <img class="h-16 w-auto rounded-full" src="https://github.com/Thirawat64/project-farmers/blob/thirawat/farmers/static/logo.jpg?raw=true" alt="">
+          <img class="h-16 w-auto rounded-full"
+            src="https://github.com/Thirawat64/project-farmers/blob/thirawat/farmers/static/logo.jpg?raw=true" alt="">
         </a>
       </div>
 
@@ -128,14 +129,17 @@
         </button>
       </div>
 
+
+
       <!-- Dropdown Nav -->
       <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
         {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="block px-4 py-2 account-link text-white opacity-75">{{ user.username }}</a>
         <a href="{% url 'logout' %}"
           class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
           ออกจากระบบ
         </a>
-        
+
         {% else %}
         <a href="{% url 'login' %}"
           class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
@@ -154,20 +158,34 @@
           class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
           ทำนายพืช
         </a>
-        
-        
+        <a href="{% url 'home' %}" class="block px-4 py-2 account-link text-white opacity-75">หน้าแรก</a>
+        <a href="{% url 'help' %}" class="block px-4 py-2 account-link text-white opacity-75">ช่วยเหลือ</a>
+        <a href="{% url 'about' %}" class="block px-4 py-2 account-link text-white opacity-75">เกี่ยวกับ</a>
+
+
       </nav>
     </header>
     {% block content %}
 
-    {% endblock %}
+    
     <div class="text-5xl text-green-900 text-center mt-20 md:text-8xl lg:w-full ">
       <div>Farmer support</div>
-      <img src="" alt="">
+
+    </div>
+    <div class=" grid justify-center mt-16 lg:hidden  ">
+      <a href="{% url 'advice' %}" class="flex items-center text-white opacity-80 hover:opacity-100 py-3 px-10 pl-6 nav-item bg-green-700 rounded-lg mb-5  ">
+        <i class="fas fa-tachometer-alt mr-3"></i>
+        เช่าอุปกรณ์
+      </a>
+
+      <a href="{% url 'index' %}" class="flex items-center text-white opacity-80 hover:opacity-100 py-3 px-10 pl-6 nav-item bg-green-700 rounded-lg">
+        <i class="fas fa-align-left mr-3"></i>
+        ทำนายพืช
+      </a>
     </div>
   </div>
-  </div>
 
+  {% endblock %}
   <!-- AlpineJS -->
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <!-- Font Awesome -->

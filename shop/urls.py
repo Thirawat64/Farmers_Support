@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete/<int:id>/',delete, name="delete"),
     path('delete_datas/<int:id>/',delete_datas, name="delete_datas"),
     path('add_sell_buy/<int:id>/',add_sell_buy, name="add_sell_buy"),
+    path('product_category/<int:id>/',product_category, name="product_category"),
     
 
 ]

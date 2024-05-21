@@ -44,6 +44,7 @@ def advice_view(req):
 #     return render(req, 'shop/show_product.html',context)
 
 def product(request):
+    category = Category.objects.all()
     if request.method == 'POST':
         search_query = request.POST.get('search_query')
         # กรองข้อมูลตามคำค้นหา
@@ -52,8 +53,24 @@ def product(request):
         # ถ้าไม่มีการส่งคำค้นหามา
         allproduct = AllProduct.objects.all()
 
-    context = {'allproduct': allproduct}
+    context = {'allproduct': allproduct,'category':category}
     return render(request, 'shop/show_product.html', context)
+
+def product_category(request,id):
+    categorys = Category.objects.all()
+    
+    category = Category.objects.get(pk=id)
+    if request.method == 'POST':
+        search_query = request.POST.get('search_query')
+        # กรองข้อมูลตามคำค้นหา
+        allproduct = AllProduct.objects.filter(product_name__icontains=search_query)
+    else:
+        # ถ้าไม่มีการส่งคำค้นหามา
+        allproduct = AllProduct.objects.filter(category=category)
+
+    context = {'allproduct': allproduct,'category':categorys}
+    return render(request, 'shop/show_product_category.html', context)
+
 
 @login_required
 def Showdetall_product(req,product_id):
@@ -68,18 +85,41 @@ def Buy_product(req):
 
 @login_required
 def Sell_product(req):
-    form = UploadForm()
-    status = Status.objects.all()
-    if req.method == 'POST':
-        form = UploadForm(req.POST, req.FILES)
-        if form.is_valid():
-            form.save(commit=False).user = req.user
-            form.save()
-            return redirect('show_product')
-    else:
-        form = UploadForm()
+    categories = Category.objects.all()
+    statuses = Status.objects.all()
 
-    return render(req, 'shop/sell_product.html',{'form': form,'status':status})
+    if req.method == 'POST':
+        product_name = req.POST.get('product_name')
+        product_price = req.POST.get('product_price')
+        phon_number = req.POST.get('phon_number')
+        product_detail = req.POST.get('product_detail')
+        product_size = req.POST.get('product_size')
+        product_location = req.POST.get('product_location')
+        quantity = req.POST.get('quantity')
+        category_id = req.POST.get('category')
+        status_id = req.POST.get('status')
+        image = req.FILES.get('image')
+
+        category = Category.objects.get(id=category_id)
+        status = Status.objects.get(id=status_id)
+
+        product = AllProduct(
+            user=req.user,
+            product_name=product_name,
+            product_price=product_price,
+            phon_number=phon_number,
+            product_detail=product_detail,
+            product_size=product_size,
+            product_location=product_location,
+            quantity=quantity,
+            category=category,
+            product_status=status,
+            image=image
+        )
+        product.save()
+        return redirect('show_product')
+
+    return render(req, 'shop/sell_product.html', {'category': categories, 'status': statuses})
 
 # def Basket(req):
 #     return render(req, 'shop/basket.html')

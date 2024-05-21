@@ -55,7 +55,7 @@ def add_profile(request):
     return render(request,'users/add_profile.html',{'form':form,'profile':profile ,})
 
 def editprofile(request):
-    p=User_profile.objects.get(user=request.user)
+    p = User_profile.objects.get(user=request.user)
     profile = Locations(instance=p)
     form = EditForm(instance=request.user)
 
@@ -64,6 +64,7 @@ def editprofile(request):
         form = EditForm(request.POST,instance=request.user)
 
         if form.is_valid() and profile.is_valid():
+            profile.save(commit=False).user = request.user
             profile.save()
             form.save()
             return redirect('dashboard')

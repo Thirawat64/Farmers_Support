@@ -18,6 +18,13 @@ class Status(models.Model):
 
     def __str__(self):
         return f'{self.name_Status}'
+
+class Category(models.Model):
+    category_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.category_name}'
+    
            
 
 class AllProduct(models.Model):
@@ -28,7 +35,9 @@ class AllProduct(models.Model):
     product_detail = models.TextField(default='No description',null=True,blank=True)
     product_size = models.CharField(max_length=200, default='Default Size',null=True,blank=True)
     product_status = models.ForeignKey(Status, on_delete=models.CASCADE, blank=True,null=True)
-    product_statustype = models.CharField(max_length=200,null=True,blank=True)
+
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True,blank=True)
+
     product_location = models.CharField(max_length=200, default='location')
     image = models.ImageField(upload_to='Parcel', default='broken_image.png',null=True,blank=True)
     datetime = models.DateField(null=True,blank=True)

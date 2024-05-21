@@ -14,5 +14,6 @@ admin.site.register(AllProduct,AllProductAdmin)
 admin.site.register(Status)
 admin.site.register(Cart)
 admin.site.register(CartItem)
+admin.site.register(Category)
 admin.site.register(Sell_Buy,Sell_BuyAdmin)
 # Register your models here.
