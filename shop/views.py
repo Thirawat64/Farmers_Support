@@ -6,13 +6,14 @@ from django.urls import reverse
 from django.contrib import messages
 
 
-
-
-
 def Location(req):
     return render(req, 'shop/location.html')
+    
+
+
 
 def searches(req):
+    categorys = Category.objects.all()
     # form = Search1()
     if req.method == 'POST':
         # form = Search1(req.POST)
@@ -32,7 +33,7 @@ def searches(req):
     else:
         form = Search1()
         # show_product = []
-    return render(req,'shop/show_product_search.html',{'show_product':show_product})
+    return render(req,'shop/show_product_search.html',{'show_product':show_product,'category':categorys})
 
 def advice_view(req):
     return render(req, 'shop/advice.html')
@@ -79,9 +80,6 @@ def Showdetall_product(req,product_id):
     print(one_product.datetime)
     return render(req, 'shop/showdetall_product.html',context)
 
-def Buy_product(req):
-    buy_ = Sell_Buy.objects.all()
-    return render(req, 'shop/buy_product.html',{'sell_buy':buy_})
 
 @login_required
 def Sell_product(req):
@@ -121,32 +119,12 @@ def Sell_product(req):
 
     return render(req, 'shop/sell_product.html', {'category': categories, 'status': statuses})
 
-# def Basket(req):
-#     return render(req, 'shop/basket.html')
-
-    
-def update(req,id):
-    form = Update()
-    c = AllProduct.objects.get(pk=id)
-    if req.method == 'POST':
-        form = Update(req.POST,instance=c)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    else:
-        form = Update(instance=c)
-
-    return render(req,'shop/edit_product.html',{'form':form})
-
 def delete(req, id):
     print(id)
     CartItem.objects.get(pk=id).delete()
     return redirect('cart')
 
-def delete_datas(req, id):
-    print(id)
-    Sell_Buy.objects.get(pk=id).delete()
-    return redirect('buy_product')
+
 
 def add_to_cart(req, product_id):
     product = AllProduct.objects.get(pk=product_id)  # ดึงสินค้าจากฐานข้อมูลด้วย ID
@@ -168,6 +146,7 @@ def add_to_cart(req, product_id):
     return redirect('cart')  # ส่งไปยังหน้าตะกร้าสินค้า
 
 def cart(req):
+    
     Cart = CartItem.objects.filter(user=req.user)
     context = {'Cart':Cart}
     return render(req,'shop/cart.html',context)
@@ -186,15 +165,12 @@ def add_sell_buy(req,id):
     }
     return render(req, 'shop/Complete_buyproduct.html',context)
 
-# def total_price(item_prices):
-#     # คำนวณราคารวมโดยบวกราคาสินค้าทุกชิ้นในรายการ
-#     total_price = sum(item_prices)
-#     return total_price
 
-# # ตัวอย่างการใช้งาน
-# item_prices = []  # ราคาสินค้าแต่ละชิ้น
-# total_price = total_price(item_prices)
-# print("Total price:", total_price)
+def sell_buy_cart(req,id,cart):
+    delete(req, cart)
+    return add_sell_buy(req,id)
+    
+
 
 
 

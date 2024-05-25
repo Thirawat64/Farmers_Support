@@ -31,7 +31,7 @@
                 </div>
 
 
-                <div class="mb-8 text-left pl-4 ">
+                <div class="mb-8 text-left  px-4 ">
 
                     <p class="">รายการเช่าอุปกรณ์ล่าสุด</p>
                     <form action="{% url 'Edit_buy_product' %}" method="post">
@@ -43,9 +43,11 @@
 
                 </div>
 
-                <div class="mb-8 text-left pl-4 ">
+                <div class="mb-8 text-left  px-4">
 
-                    <p class="">รายการปล่อยเช่าอุปกรณ์ล่าสุด</p>
+                    <p class="">รายการปล่อยเช่าอุปกรณ์ล่าสุด
+                            <i class="fa-regular fa-bell fa-xl pl-4"></i>
+                    </p>
                     <form action="{% url 'Edit_sell_product' %}" method="post">
                         {% csrf_token %}
                         <button type="submit"

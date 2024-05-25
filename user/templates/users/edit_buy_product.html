@@ -47,7 +47,7 @@
                                 <p class="text-xl font-family mb-4">ลบอุปกรณ์</p>
                                 <p>ยืนยันการลบ</p>
                                 <div class="text-center">
-                                    <a href=""
+                                    <a href="{% url 'delete_buy' i.product.id %}"
                                         class="mt-4 bg-[#E81C03] hover:bg-cover text-white px-4 py-2.5 rounded mr-5">ยืนยัน</a>
                                     <button @click="open = false"
                                         class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">ปิด</button>

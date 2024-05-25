@@ -6,7 +6,11 @@ from django.http import HttpRequest, HttpResponseRedirect
 from user.forms import  RegisterForm
 from django.contrib import messages
 from .forms import *
-from shop.models import Sell_Buy , AllProduct
+from shop.models import Sell_Buy , AllProduct, Category,CartItem
+from shop.forms import Update
+
+
+
 # Create your views here.
 def Register(req):
     if req.method == 'POST':
@@ -89,5 +93,37 @@ def Edit_sell_product(req):
 def Edit_buy_product(req):
     buy = Sell_Buy.objects.filter(user=req.user)
     print(buy)
+    
     # context = Edit_buy_product
     return render(req, 'users/edit_buy_product.html',{'buy':buy})
+
+def update(req, id):
+    categories = Category.objects.all()
+    c = AllProduct.objects.get(pk=id)
+    form = Update(instance=c)
+
+    if req.method == 'POST':
+        form = Update(req.POST,req.FILES, instance=c)
+        if form.is_valid():
+            form.save(commit=False).user = req.user
+            form.save()
+            return redirect('/user/Edit_sell_product/')
+    else:
+        form = Update(instance=c)
+
+    return render(req, 'users/edit_product.html', {'form': form, 'c': c, 'categories': categories})
+
+def delete_sell(req, id):
+    print(id)
+    AllProduct.objects.get(pk=id).delete()
+    return redirect('/users/Edit_sell_product/')
+
+def delete_buy(req, id):
+    print(id)
+    AllProduct.objects.get(pk=id).delete()
+    return redirect('/users/Edit_buy_product/')
+
+def See_rentals_product(req,id):
+    pro = AllProduct.objects.get(pk=id)
+    users = Sell_Buy.objects.filter(product=pro)
+    return render(req, 'users/See_rentals_product.html',{'users':users})

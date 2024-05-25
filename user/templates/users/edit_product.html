@@ -1,0 +1,114 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- รหัสสินค้าเก่า -->
+    <input type="hidden" name="product_id" value="{{ c.id }}">
+
+    <!-- รายละเอียดอุปกรณ์ -->
+    <div class="container mx-auto mt-5 p-16 bg-white shadow-lg rounded-lg lg:h-screen">
+       
+            {% csrf_token %}
+            
+            <h3 class="text-2xl font-semibold mb-6">รายละเอียดอุปกรณ์</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- ตำแหน่งสินค้าเก่า -->
+                <div class="flex flex-col">
+                    <label for="product_location_1" class="text-lg font-medium mb-2">ที่อยู่อุปกรณ์:</label>
+                    <input type="text" id="product_location_1" name="product_location" value="{{ c.product_location }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+                <!-- เบอร์โทรเก่า -->
+                <div class="flex flex-col">
+                    <label for="phon_number_1" class="text-lg font-medium mb-2">เบอร์โทร:</label>
+                    <input type="text" id="phon_number_1" name="phon_number" value="{{ c.phon_number }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+            </div>
+            
+            <!-- ที่อยู่ในการคืนอุปกรณ์ -->
+            <div class="mt-6">
+                <h3 class="text-xl font-semibold mb-4">ที่อยู่ในการคืนอุปกรณ์</h3>
+                <div class="flex flex-col">
+                    <label for="product_location_2" class="text-lg font-medium mb-2">ที่อยู่อุปกรณ์:</label>
+                    <input type="text" id="product_location_2" name="product_location" value="{{ c.product_location }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+            </div>
+
+            <!-- ข้อมูลอุปกรณ์ -->
+            <div class="mt-6">
+                <h3 class="text-xl font-semibold mb-4">ข้อมูลอุปกรณ์</h3>
+                <div class="flex flex-col mb-4">
+                    <!-- ภาพอุปกรณ์ -->
+                    <label for="image" class="text-lg font-medium mb-2">ภาพอุปกรณ์:</label>
+                    {{form.image}}
+                </div>
+            </div>
+            
+            <!-- หมวดหมู่อุปกรณ์ -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col">
+                    <label for="product_name" class="text-lg font-medium mb-2">ชื่ออุปกรณ์:</label>
+                    <input type="text" id="product_name" name="product_name" value="{{ c.product_name }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+                <div class="flex flex-col">
+                    <label for="product_statustype" class="text-lg font-medium mb-2">หมวดหมู่อุปกรณ์:</label>
+                    
+                    <select id="category" name="category" class="bg-gray-50 border text-gray-100 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-100 dark:text-black">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id == c.category_id %} selected {% endif %}>{{ category.category_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <!-- สถานะอุปกรณ์ -->
+            <div class="mt-6">
+                <label for="product_status" class="text-lg font-medium mb-2">สถานะอุปกรณ์:</label>
+                <select id="status" name="status" class="form-select bg-gray-100 h-10 rounded-md">
+                    {% for status in status %}
+                    <option value="{{ status.id }}" {% if c.product_status == status %}selected{% endif %}>{{status.name_Status }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- ขนาดอุปกรณ์และรายละเอียดอุปกรณ์ -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col">
+                    <label for="product_size" class="text-lg font-medium mb-2">ขนาดอุปกรณ์:</label>
+                    <input type="text" id="product_size" name="product_size" value="{{ c.product_size }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+                <div class="flex flex-col">
+                    <label for="product_detail" class="text-lg font-medium mb-2">รายละเอียดอุปกรณ์:</label>
+                    <textarea id="product_detail" name="product_detail" class="form-textarea bg-gray-100 h-24 rounded-md">{{ c.product_detail }}</textarea>
+                </div>
+            </div>
+            <!-- วันที่ปล่อยเช่าและวันสุดท้ายของการเช่า -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div class="flex flex-col">
+                    <label for="datetime" class="text-lg font-medium mb-2">วันที่ต้องการปล่อยเช่า:</label>
+                    <input type="date" id="datetime" value="{{ c.datetime }}" name="datetime" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+                <div class="flex flex-col">
+                    <label for="lastdate" class="text-lg font-medium mb-2">สิ้นสุดวันปล่อยเช่า:</label>
+                    <input type="date" id="lastdate" name="lastdate" value="{{ c.lastdate }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+            </div>
+            <!-- ราคาและจำนวน -->
+            <div class="mt-6 flex items-center gap-4">
+                <div class="flex flex-col w-full">
+                    <label for="product_price" class="text-lg font-medium mb-2">ราคา:</label>
+                    <input type="number" id="product_price" name="product_price" value="{{ c.product_price }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+                <div class="flex flex-col w-full">
+                    <label for="quantity" class="text-lg font-medium mb-2">จำนวนที่ต้องการปล่อย:</label>
+                    <input type="number" id="quantity" name="quantity" value="{{ c.quantity }}" class="form-input bg-gray-100 h-10 rounded-md">
+                </div>
+            </div>
+            <!-- ปุ่มยืนยัน -->
+            <div class="mt-8 mb-10 flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 lg:mb-10">บันทึก</button>
+            </div>
+    </div>
+</form>
+
+{% endblock %}

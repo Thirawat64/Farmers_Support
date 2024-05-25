@@ -6,8 +6,11 @@ class AllProductAdmin(admin.ModelAdmin):
     list_filter = ['user']
 
 class Sell_BuyAdmin(admin.ModelAdmin):
-    list_display = ['user','product',]
+    list_display = ['user','product','product_user']
     list_filter = ['user']
+
+    def product_user(obj,user):
+        return user.product.user
 
 
 admin.site.register(AllProduct,AllProductAdmin)
