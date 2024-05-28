@@ -3,38 +3,46 @@
 
 {% block content %}
 
-<div class="">
-    <div class="grid grid-cols-3">
-        <div class="m-5">
-            <select id="province_name" name="province_name" class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-5 py-2 dark:bg-gray-100 dark:text-black w-52" onchange="navigateToProvince()">
+<div class="flex justify-around lg:mx-20">
+    <div class="grid grid-cols-4 lg:grid-cols-3 ">
+        <div class="mt-5">
+            <select id="province_name" name="province_name"
+                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
+                onchange="navigateToProvince()">
                 <option selected>เลือกจังหวัด</option>
                 {% for province in provinces %}
                 <option value="{% url 'show_product_province' province.id %}">{{ province.province_name }}</option>
                 {% endfor %}
             </select>
         </div>
-        <div class="flex justify-center mt-5">
-            
+        <div class="flex  mt-5">
+
             <form action="{% url 'search' %}" method="post" class="flex max-w-sm">
                 {% csrf_token %}
-                <input type="text" name="search" placeholder="Search..."
-                    class="px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-100 w-96 h-10">
-                <button type="submit"
-                    class="bg-green-600 hover:bg-green-800 px-4 py-2 rounded-r-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-700 h-10">ค้นหา</button>
+                <div class="flex ">
+                    <input type="text" name="search" placeholder="Search..."
+                        class="px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-100 w-20 h-10 lg:w-96 lg:h-10">
+                    <button type="submit"
+                        class="bg-green-600 hover:bg-green-800 px-4 py-2 rounded-r-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-700 h-10"><i
+                        class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
             </form>
-            
-        </div>
 
-        <div class=" flex justify-end mx-7 mt-5">
-            
-            <form action="{% url 'buy_product' %}">
-                <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded-lg mr-8 text-sm">ปล่อยเช่าอุปกรณ์</button>
-            </form>
-            <a href="{% url 'cart' %}">
-                <i class="fa-solid fa-cart-plus text-3xl"></i>
-            </a>
         </div>
+        <div class="flex lg:ml-20">
+            <div class="flex justify-end ml-20 mt-5 mb-2 ">
+                <form action="{% url 'buy_product' %}">
+                    <button type="submit"
+                        class="bg-blue-500 text-white mx-2 lg:px-5 lg:py-2 lg:w-32 w-10 h-10 rounded-lg lg:mr-8  text-sm block">ปล่อยเช่า</button>
+                </form>
+            </div>
 
+            <div class=" flex justify-end  mt-5 mb-2">
+                <a href="{% url 'cart' %}">
+                    <i class="fa-solid fa-cart-plus text-xl lg:text-3xl"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -50,7 +58,7 @@
 
 <div class="lg:flex">
 
-    <div class="w-full lg:max-h-full lg:w-96 bg-gray-400">
+    <div class="w-full  bg-gray-400 lg:min-w-48 lg:max-w-48 lg:min-h-screen ">
         <p class="text-lg font-semibold mb-4 text-center">หมวดหมู่</p>
 
         <ul class="text-center flex justify-between lg:grid lg:grid-cols-1 p-2 ">
