@@ -18,3 +18,8 @@ class Locations(forms.ModelForm):
         model = User_profile
         fields = ['locations','phon_numbers']
 
+from django.contrib.auth.forms import PasswordChangeForm
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    pass
+

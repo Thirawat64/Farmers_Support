@@ -1,13 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from audioop import reverse
-from django.contrib.auth import login
+from django.contrib.auth import login,logout
 from django.shortcuts import render , redirect
 from django.http import HttpRequest, HttpResponseRedirect
 from user.forms import  RegisterForm
 from django.contrib import messages
 from .forms import *
-from shop.models import Sell_Buy , AllProduct, Category,CartItem
+from shop.models import *
 from shop.forms import Update
+from django.db.models import Count, Q
 
 
 
@@ -27,6 +28,8 @@ def Register(req):
 
 def Login(req):
     return render(req, 'registration/login.html')
+
+
 
 @login_required
 def dashboard(req):
@@ -85,45 +88,56 @@ def editprofile(request):
 
 
 def Edit_sell_product(req):
-    sell = AllProduct.objects.filter(user=req.user)
-    print(sell)
-    # context = Edit_buy_product
+    sell = AllProduct.objects.filter(user=req.user).annotate(unread_sells_count=Count('sells', filter=Q(sells__read=False)))
+    for i in sell:
+        print(i.sells.filter(read=False).count())
     return render(req, 'users/edit_sell_product.html',{'sell':sell})
 
 def Edit_buy_product(req):
     buy = Sell_Buy.objects.filter(user=req.user)
-    print(buy)
+    # print(buy)
     
     # context = Edit_buy_product
     return render(req, 'users/edit_buy_product.html',{'buy':buy})
 
-def update(req, id):
-    categories = Category.objects.all()
-    c = AllProduct.objects.get(pk=id)
-    form = Update(instance=c)
+# def update_product(req, id):
+#     provinces = Provinces.objects.all()
+#     categories = Category.objects.all()
+#     statuses = Status.objects.all()
+#     c = AllProduct.objects.get(pk=id)
+#     form = Update(instance=c)
 
-    if req.method == 'POST':
-        form = Update(req.POST,req.FILES, instance=c)
-        if form.is_valid():
-            form.save(commit=False).user = req.user
-            form.save()
-            return redirect('/user/Edit_sell_product/')
-    else:
-        form = Update(instance=c)
+#     if req.method == 'POST':
+#         form = Update(req.POST,req.FILES, instance=c)
+#         if form.is_valid():
+#             form.save(commit=False).user = req.user
+#             form.save()
+#             return redirect('/user/Edit_sell_product/')
+#     else:
+#         form = Update(instance=c)
 
-    return render(req, 'users/edit_product.html', {'form': form, 'c': c, 'categories': categories})
+#     return render(req, 'users/edit_product.html', {'form': form, 'c': c, 'categories': categories, 'status': statuses ,'provinces':provinces})
+
+
 
 def delete_sell(req, id):
     print(id)
     AllProduct.objects.get(pk=id).delete()
-    return redirect('/users/Edit_sell_product/')
+    return redirect('/user/Edit_sell_product/')
 
 def delete_buy(req, id):
     print(id)
     AllProduct.objects.get(pk=id).delete()
-    return redirect('/users/Edit_buy_product/')
+    return redirect('/user/Edit_buy_product/')
 
 def See_rentals_product(req,id):
     pro = AllProduct.objects.get(pk=id)
     users = Sell_Buy.objects.filter(product=pro)
-    return render(req, 'users/See_rentals_product.html',{'users':users})
+    for i in users:
+        i.read = True
+        i.save()
+
+    return render(req, 'users/See_rentals_product.html',{'users':users,'provinces': Provinces.objects.all()})
+
+
+

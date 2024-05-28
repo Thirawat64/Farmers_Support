@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     'django.contrib.humanize',
     "crispy_forms",
-    "crispy_bootstrap5",
+    "crispy_tailwind",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'main',
@@ -48,9 +48,9 @@ INSTALLED_APPS = [
     'prediction',
 ]
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -152,6 +152,15 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "login"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'amnonlove999@gmail.com'  # แทนที่ด้วยที่อยู่อีเมลของคุณ
+EMAIL_HOST_PASSWORD = 'pnlnsxpspvgzjvbj'  # แทนที่ด้วย App Password ที่คุณสร้าง
+# DEFAULT_FROM_EMAIL = 'amnonlove999@gmail.com' 

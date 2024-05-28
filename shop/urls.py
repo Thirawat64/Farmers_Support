@@ -3,12 +3,12 @@ from .views import *
 
 
 urlpatterns = [
-    path('',Location,name='location'),
+    # path('',location_search,name='location_search'),
     path('search/',searches,name='search'),
     path('advice/',advice_view,name='advice'),
     path('product/',product,name='show_product'),
     path('showdetall_product/<int:product_id>',Showdetall_product,name='Showdetall_product'),
-    path('sell_product/',Sell_product,name='sell_product'),
+    # path('sell_product/',Sell_product,name='sell_product'),
     # path('buy_product/',Buy_product,name='buy_product'),
     path('add_to_cart/<int:product_id>/',add_to_cart, name='add_to_cart'),
     path('cart/',cart,name='cart'),
@@ -16,7 +16,11 @@ urlpatterns = [
     # path('delete_datas/<int:id>/',delete_datas, name="delete_datas"),
     path('add_sell_buy/<int:id>/',add_sell_buy, name="add_sell_buy"),
     path('product_category/<int:id>/',product_category, name="product_category"),
+    path('show_product_province/<int:id>/',show_product_province, name="show_product_province"),
     path('sell_buy_cart/<int:id>/<int:cart>/',sell_buy_cart, name="sell_buy_cart"),
+    path('buy_product/',buy_product, name="buy_product"),
+    path('edit_product/<int:id>/',edit_product, name="edit_product"),
+
     
 
 ]

@@ -19,4 +19,5 @@ admin.site.register(Cart)
 admin.site.register(CartItem)
 admin.site.register(Category)
 admin.site.register(Sell_Buy,Sell_BuyAdmin)
+admin.site.register(Provinces)
 # Register your models here.

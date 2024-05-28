@@ -35,9 +35,12 @@
                     <td class="px-4 lg:px-6 py-4">{{ i.product_price }}</td>
                     <td class="px-4 lg:px-6 py-4 w-28">{% if i.image %}<img src="{{ i.image.url }}" alt="">{% endif %}
                     </td>
-                    <td class="px-4 lg:px-6 py-4">
-                        <a href="{% url 'See_rentals_product' i.id %}">
+                    <td class="px-4 lg:px-6 py-4  ">
+                        <a class="flex" href="{% url 'See_rentals_product' i.id %}">
                             <i class="fa-regular fa-bell fa-2x"></i>
+                            {% if i.unread_sells_count > 0 %}
+                            <img src="https://cdn-icons-png.freepik.com/512/10786/10786060.png" alt="" class="w-10 mx-4">
+                            {% endif %}
                         </a>
                     </td>
                     <td x-data="{ open: false }" class="text-center mt-10 mb-10">

@@ -24,7 +24,12 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.category_name}'
-    
+
+class Provinces(models.Model):
+    province_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.province_name}'
            
 
 class AllProduct(models.Model):
@@ -36,6 +41,7 @@ class AllProduct(models.Model):
     product_size = models.CharField(max_length=200, default='Default Size',null=True,blank=True)
     product_status = models.ForeignKey(Status, on_delete=models.CASCADE, blank=True,null=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True,blank=True)
+    province = models.ForeignKey(Provinces, on_delete=models.DO_NOTHING, null=True,blank=True)
     product_location = models.CharField(max_length=200, default='location')
     image = models.ImageField(upload_to='Parcel', default='broken_image.png',null=True,blank=True)
     datetime = models.DateField(null=True,blank=True)
@@ -65,8 +71,10 @@ class CartItem(models.Model):
 
 class Sell_Buy(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
-    product = models.ForeignKey(AllProduct, on_delete=models.CASCADE,null=True,blank=True)
-    # phon = models.CharField(max_length=10,default='phon_number',null=True,blank=True)
+    product = models.ForeignKey(AllProduct, on_delete=models.CASCADE,null=True,blank=True,related_name='sells')
+    phon = models.CharField(max_length=10,null=True,blank=True)
+    location = models.CharField(max_length=200,null=True,blank=True)
+    read = models.BooleanField(default=False)
 
     
 

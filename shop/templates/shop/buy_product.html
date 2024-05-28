@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="flex justify-center">
+    <div class="mt-10 mb-10 mx-auto w-full max-w-screen-md">
+        <div class="text-2xl font-medium p-4 flex justify-center">ปล่อยเช่าอุปกรณ์</div>
+
+        <form action="" method="post" enctype="multipart/form-data" class="m-4 p-4">
+            <div class="grid md:grid-cols-1 gap-3">
+                {% csrf_token %}
+                {{ form|crispy }}
+            </div>
+        
+            <div class="mt-5 justify-center flex">
+                <button type="submit" class="border p-2 text-lg bg-amber-500 hover:bg-amber-700 rounded-lg text-white">ปล่อยเช่าอุปกรณ์</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
