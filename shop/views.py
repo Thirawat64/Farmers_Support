@@ -6,40 +6,37 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 
+
+#ค้นหา
+
 def searches(req):
-   
+    #ดึงออบเจ็กต์ทั้งหมดจากAllProductและCategoryมาไว้ในตัวแปล
     show_product = AllProduct.objects.all()
     categorys = Category.objects.all()
-    # form = Search1()
+    
     if req.method == 'POST':
-        # form = Search1(req.POST)
-        print(req.POST.get('time'))
-        # if form.is_valid():
-        time = req.POST.get('time')
         search = req.POST.get('search')
         print(search)
-        if time is not None:
-            show_product =  AllProduct.objects.filter(datetime__icontains=time) 
-            for i in show_product:
-                print(i)
-        elif search is not None:
-            show_product = AllProduct.objects.filter(product_name__icontains=search) or AllProduct.objects.filter(product_location__icontains=search) 
+        if search:
+            show_product = AllProduct.objects.filter(product_name__icontains=search) or AllProduct.objects.filter(product_location__icontains=search)
         else:
             show_product = AllProduct.objects.all()
     else:
         form = Search1()
-        # show_product = []
-    return render(req,'shop/show_product_search.html',{'show_product':show_product,'category':categorys,'provinces': Provinces.objects.all()})
 
+    return render(req, 'shop/show_product_search.html', {
+        'show_product': show_product,
+        'category': categorys,
+        'provinces': Provinces.objects.all()
+    })
+
+
+#หน้าคำแนะนำ
 def advice_view(req):
     return render(req, 'shop/advice.html')
 
 
-# def product(req):
-#     allproduct = AllProduct.objects.all()
-#     context = {'allproduct':allproduct}
-#     return render(req, 'shop/show_product.html',context)
-
+#แสดงอุปกรณ์ทั้งหมด
 def product(request):
 
     category = Category.objects.all()
@@ -54,6 +51,7 @@ def product(request):
     context = {'allproduct': allproduct,'category':category,'provinces': Provinces.objects.all()}
     return render(request, 'shop/show_product.html', context)
 
+#แสดงหมวดหมู่
 def product_category(request,id):
     categorys = Category.objects.all()
     
@@ -69,7 +67,7 @@ def product_category(request,id):
     context = {'allproduct': allproduct,'category':categorys,'provinces': Provinces.objects.all()}
     return render(request, 'shop/show_product_category.html', context)
 
-
+#โชว์รายละเอียด
 @login_required
 def Showdetall_product(req,product_id):
     one_product = AllProduct.objects.get(pk=product_id)
@@ -78,55 +76,18 @@ def Showdetall_product(req,product_id):
     return render(req, 'shop/showdetall_product.html',context)
 
 
-@login_required
-# def Sell_product(req):
-#     categories = Category.objects.all()
-#     provinces = Provinces.objects.all()
-#     statuses = Status.objects.all()
-
-#     if req.method == 'POST':
-#         product_name = req.POST.get('product_name')
-#         product_price = req.POST.get('product_price')
-#         phon_number = req.POST.get('phon_number')
-#         product_detail = req.POST.get('product_detail')
-#         product_size = req.POST.get('product_size')
-#         product_location = req.POST.get('product_location')
-#         quantity = req.POST.get('quantity')
-#         category_id = req.POST.get('category')
-#         status_id = req.POST.get('status')
-#         image = req.FILES.get('image')
-#         province_id = req.POST.get('province_name')#เพิ่ม
-
-#         category = Category.objects.get(id=category_id)
-#         status = Status.objects.get(id=status_id)
-#         province = Provinces.objects.get(id=province_id)#เพิ่ม
-
-#         product = AllProduct(
-#             user=req.user,
-#             product_name=product_name,
-#             product_price=product_price,
-#             phon_number=phon_number,
-#             product_detail=product_detail,
-#             product_size=product_size,
-#             product_location=product_location,
-#             quantity=quantity,
-#             category=category,
-#             product_status=status,
-#             province = province,#เพิ่ม
-#             image=image,
-#         )
-#         product.save()
-#         return redirect('show_product')
-
-#     return render(req, 'shop/sell_product.html', {'category': categories, 'status': statuses,'provinces':provinces})
-
-
+#ลบของในตระกร้า
 def delete(req, id):
     print(id)
     CartItem.objects.get(pk=id).delete()
     return redirect('cart')
 
+#ลบ
+def sell_buy_cart(req,id,cart):
+    delete(req, cart)
+    return add_sell_buy(req,id)
 
+#เพิ่มของลงตระกร้า
 def add_to_cart(req, product_id):
     product = get_object_or_404(AllProduct, pk=product_id)
     
@@ -149,12 +110,14 @@ def add_to_cart(req, product_id):
     
     return redirect('cart')
 
+#ตระกร้า
+@login_required
 def cart(req):
-    
     Cart = CartItem.objects.filter(user=req.user)
     context = {'Cart':Cart}
     return render(req,'shop/cart.html',context)
 
+#สิ้นสุดการเช่า
 def add_sell_buy(req,id):
     product = AllProduct.objects.get(pk=id)
     data = Sell_Buy.objects.create(
@@ -173,10 +136,9 @@ def add_sell_buy(req,id):
     return render(req, 'shop/Complete_buyproduct.html',context)
 
 
-def sell_buy_cart(req,id,cart):
-    delete(req, cart)
-    return add_sell_buy(req,id)
 
+
+#ค้นหาจังหวัด
 def show_product_province(req,id):
     provinces = Provinces.objects.all()
     categorys = Category.objects.all()
@@ -193,7 +155,8 @@ def show_product_province(req,id):
     return render(req,'shop/show_product_province.html',context)
     
 
-
+#ปล่อยเช่า
+@login_required
 def buy_product(request):
     if request.method == 'POST':
         form = UploadForm(request.POST,request.FILES)
@@ -208,6 +171,7 @@ def buy_product(request):
 
     return render(request,'shop/buy_product.html',{'form':form})
 
+#แก้ไข
 def edit_product(request,id):
     allproduct = AllProduct.objects.get(pk=id)
     if request.method == 'POST':

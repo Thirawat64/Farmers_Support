@@ -12,7 +12,7 @@ from django.db.models import Count, Q
 
 
 
-# Create your views here.
+#สมัครสมาชิก
 def Register(req):
     if req.method == 'POST':
         form = RegisterForm(req.POST)
@@ -26,17 +26,20 @@ def Register(req):
     return render(req, 'users/register.html',{'form': form})
 #password non12345678
 
+#ล็อกอิน
 def Login(req):
     return render(req, 'registration/login.html')
 
 
-
+#หน้าแดสบอด
 @login_required
 def dashboard(req):
     sell = Sell_Buy.objects.filter(user=req.user)
     buy = AllProduct.objects.filter(user=req.user)
     return render(req, 'users/dashboard.html',{'sell':sell,'buy':buy})
 
+
+#เพิ่มโปรไฟล์
 def add_profile(request):
     form = EditForm()
     profile = Locations()
@@ -61,6 +64,7 @@ def add_profile(request):
 
     return render(request,'users/add_profile.html',{'form':form,'profile':profile ,})
 
+#แก้ไขโปรไฟล์
 def editprofile(request):
     p = User_profile.objects.get(user=request.user)
     profile = Locations(instance=p)
@@ -86,13 +90,14 @@ def editprofile(request):
 
     return render(request,'users/edit_profile.html',{'form':form,'profile':profile})
 
-
+#แก้ไขหน้าเช่า
 def Edit_sell_product(req):
     sell = AllProduct.objects.filter(user=req.user).annotate(unread_sells_count=Count('sells', filter=Q(sells__read=False)))
     for i in sell:
         print(i.sells.filter(read=False).count())
     return render(req, 'users/edit_sell_product.html',{'sell':sell})
 
+#แก้ไขหน้าปล่อยเช่า
 def Edit_buy_product(req):
     buy = Sell_Buy.objects.filter(user=req.user)
     # print(buy)
@@ -100,36 +105,20 @@ def Edit_buy_product(req):
     # context = Edit_buy_product
     return render(req, 'users/edit_buy_product.html',{'buy':buy})
 
-# def update_product(req, id):
-#     provinces = Provinces.objects.all()
-#     categories = Category.objects.all()
-#     statuses = Status.objects.all()
-#     c = AllProduct.objects.get(pk=id)
-#     form = Update(instance=c)
 
-#     if req.method == 'POST':
-#         form = Update(req.POST,req.FILES, instance=c)
-#         if form.is_valid():
-#             form.save(commit=False).user = req.user
-#             form.save()
-#             return redirect('/user/Edit_sell_product/')
-#     else:
-#         form = Update(instance=c)
-
-#     return render(req, 'users/edit_product.html', {'form': form, 'c': c, 'categories': categories, 'status': statuses ,'provinces':provinces})
-
-
-
+#ลบของในหน้าเช่าา
 def delete_sell(req, id):
     print(id)
     AllProduct.objects.get(pk=id).delete()
     return redirect('/user/Edit_sell_product/')
 
+#ลบหน้าปล่อยเช่า
 def delete_buy(req, id):
     print(id)
     AllProduct.objects.get(pk=id).delete()
     return redirect('/user/Edit_buy_product/')
 
+#ดูรายละเอียดผู้มาเช้า
 def See_rentals_product(req,id):
     pro = AllProduct.objects.get(pk=id)
     users = Sell_Buy.objects.filter(product=pro)

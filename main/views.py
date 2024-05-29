@@ -27,12 +27,13 @@ def Logout(request):
     logout(request)
     return redirect('/')
 
-
+#ลิมพาสเวิด
 class ForgotPasswordView(PasswordResetView):
     template_name = 'main/forgot_password.html'
     email_template_name = 'main/forgot_password_email.html'
     success_url = reverse_lazy('login')  
 
+#ตั้งรหัสผ่านใหม่
 class PasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'main/reset_password_confirm.html'
     success_url = reverse_lazy('login')
