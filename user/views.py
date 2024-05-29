@@ -106,13 +106,13 @@ def Edit_buy_product(req):
     return render(req, 'users/edit_buy_product.html',{'buy':buy})
 
 
-#ลบของในหน้าเช่าา
+#ลบหน้าปล่อยเช่า
 def delete_sell(req, id):
     print(id)
     AllProduct.objects.get(pk=id).delete()
     return redirect('/user/Edit_sell_product/')
 
-#ลบหน้าปล่อยเช่า
+#ลบของในหน้าเช่าา
 def delete_buy(req, id):
     print(id)
     AllProduct.objects.get(pk=id).delete()

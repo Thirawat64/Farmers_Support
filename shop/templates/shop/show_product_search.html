@@ -24,7 +24,7 @@
                         class="px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-100 w-20 h-10 lg:w-96 lg:h-10">
                     <button type="submit"
                         class="bg-green-600 hover:bg-green-800 px-4 py-2 rounded-r-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-700 h-10"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
+                            class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </form>
 
@@ -71,48 +71,54 @@
         </ul>
     </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 m-2 col-start-2 ">
-        
+
+
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 m-2 col-start-2 h-full ">
         {% if show_product %}
         {% for i in show_product %}
         {% if i.quantity > 0 %}
-        <a class="hover:scale-105 transform transition h-fit duration-300 ease-in-out "
+        <a class="hover:scale-105 transform transition duration-300 ease-in-out"
             href="{% url 'Showdetall_product' i.id %}">
-            <div class="border bg-green-100 rounded-lg h-full">
+            <div class="border bg-green-100 rounded-lg product-box">
+                {% if i.image %}
                 <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
-                <div class="p-4">
-                    <h5 class="text-lg font-semibold">
+                {% endif %}
+                <div class="p-4 content">
+                    <h5 class="text-lg font-semibold mb-2">
                         {% if i.id %}
-                        <div class="text-blue-500">{{ i.product_name }}</div>
+                        <div class="text-blue-500 truncate">{{ i.product_name }}</div>
                         {% else %}
                         <span class="text-red-500">No ID available for this product</span>
                         {% endif %}
                     </h5>
-                    <p class="text-gray-800">ราคา: {{ i.product_price }}</p>
-                    <p class="text-gray-800">สถานะอุปกรณ์: {{ i.product_status }}</p>
-                    <p class="text-gray-800">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
-                    <p class="text-gray-800">จำนวน: {{ i.quantity }} ชิ้น</p>
+                    <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
+                    <p class="text-gray-800 truncate">สถานะอุปกรณ์: {{ i.product_status }}</p>
+                    <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
+                    <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
                 </div>
             </div>
         </a>
-        {% else %}
 
-        <div class="border bg-red-300 rounded-lg h-fit">
+        {% else %}
+        <div class="border bg-red-300 rounded-lg product-box">
+            {% if i.image %}
             <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
-            <div class="p-4">
-                <h5 class="text-lg font-semibold">
+            {% endif %}
+            <div class="p-4 content">
+                <h5 class="text-lg font-semibold mb-2">
                     {% if i.id %}
-                    <div class="text-blue-500">{{ i.product_name }}</div>
+                    <div class="text-blue-500 truncate">{{ i.product_name }}</div>
                     {% else %}
                     <span class="text-red-500">No ID available for this product</span>
                     {% endif %}
                 </h5>
-                <p class="text-gray-800">ราคา: {{ i.product_price }}</p>
-                <p class="text-gray-800">สถานะอุปกรณ์: หมด</p>
-                <p class="text-gray-800">ที่อยู่อุปกรณ์: {{ i.product_location }}</p>
-                <p class="text-gray-800">จำนวน: {{ i.quantity }} ชิ้น</p>
+                <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
+                <p class="text-gray-800 truncate">สถานะอุปกรณ์: หมด</p>
+                <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
+                <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
             </div>
         </div>
+
 
         {% endif %}
         {% endfor %}
@@ -121,14 +127,7 @@
         {% endif %}
     </div>
 
+
 </div>
-
-
-
-
-
-
-
-
 
 {% endblock %}

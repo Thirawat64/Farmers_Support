@@ -49,8 +49,8 @@
     </div>
 
 
-    <div class="flex justify-between mt-8 mx-20">
-        <div x-data="{ open: false }">
+    <div class="flex justify-between w-30 h-10 mx-10">
+        <div x-data="{ open: false }" class=" ">
 
             <button @click="open = true" class="bg-blue-500 text-white px-4 py-2 rounded-lg">
                 เช่าอุปกรณ์
@@ -70,8 +70,8 @@
             </div>
 
         </div>
-        <form action="{% url 'add_to_cart' product.id  %}" class="mr-4">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">เพิ่มลงตะกร้า</button>
+        <form action="{% url 'add_to_cart' product.id  %}" class="">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2  rounded-lg">เพิ่มลงตะกร้า</button>
         </form>
 
     </div>

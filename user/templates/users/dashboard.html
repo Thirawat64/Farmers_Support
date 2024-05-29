@@ -5,7 +5,7 @@
 
 
 <body class="min-h-screen bg-cover bg-center"
-    style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg);">
+style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg); background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
     <div class="w-full h-full flex justify-center  mt-20 ">
         <div class="relative rounded overflow-hidden  w-1/2 h-fit  bg-gray-900 bg-opacity-50 shadow-lg">
             <div class="absolute inset-0 bg-gray-900 bg-opacity-50 filter blur-2xl h-full "></div>
@@ -69,6 +69,10 @@
                         </div>
                     </div>
                 </a>
+                <div class="my-2 flex h-12 mb-10 items-center justify-center rounded-lg text-white bg-blue-500 hover:bg-blue-700 m-20">
+                    <a href="{% url 'show_product' %}"
+                        class=" text-white px-4 py-2 rounded-md ">เช่าอุปกรณ์เพิ่มเติม</a>
+                </div>
                 {% else %}
 
                 <a href="{% url 'add_profile' %}">
