@@ -34,7 +34,7 @@ style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice
                 <div class="mb-8 text-left  px-4 ">
 
                     <p class="">รายการเช่าอุปกรณ์ล่าสุด</p>
-                    <form action="{% url 'Edit_buy_product' %}" method="post">
+                    <form action="{% url 'view_rental_history' %}" method="post">
                         {% csrf_token %}
                         <button type="submit"
                             class="p-2 border w-full text-[#000] bg-gray-200 rounded-md">ดูรายการเช่า</button>
@@ -85,6 +85,10 @@ style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice
                         </div>
                     </div>
                 </a>
+                <div class="my-2 flex h-12 mb-10 items-center justify-center rounded-lg text-white bg-blue-500 hover:bg-blue-700 m-20">
+                    <a href="{% url 'show_product' %}"
+                        class=" text-white px-4 py-2 rounded-md ">เช่าอุปกรณ์เพิ่มเติม</a>
+                </div>
                 {% endif %}
             </div>
 

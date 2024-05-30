@@ -15,7 +15,7 @@ urlpatterns = [
     path('dashboard/',view=views.dashboard , name='dashboard'),
     path('editprofile/',view=views.editprofile , name='editprofile'),
     path('add_profile/',view=views.add_profile , name='add_profile'),
-    path('Edit_buy_product/',view=views.Edit_buy_product , name='Edit_buy_product'),
+    path('view_rental_history/', view_rental_history, name='view_rental_history'),
     path('Edit_sell_product/',view=views.Edit_sell_product , name='Edit_sell_product'),
     # path('edit/Allproduct/<int:id>/',view=views.update_product,name='edit_product'),
     path('delete_sell/<int:id>/',delete_sell, name="delete_sell"),

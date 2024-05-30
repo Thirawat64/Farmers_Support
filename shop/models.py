@@ -75,6 +75,7 @@ class Sell_Buy(models.Model):
     phon = models.CharField(max_length=10,null=True,blank=True)
     location = models.CharField(max_length=200,null=True,blank=True)
     read = models.BooleanField(default=False)
+    quantity = models.PositiveIntegerField(default=1)
 
     
 

@@ -29,6 +29,17 @@
                             {{ form.email.errors }}
                         </div>
                         <div class="form-field mb-4">
+                            {{ profile.locations.label_tag }}
+                            {{ profile.locations }}
+                            {{ profile.locations.errors }}
+                        </div>
+                        <div class="form-field mb-4">
+                            {{ profile.phon_numbers.label_tag }}
+                            {{ profile.phon_numbers }}
+                            {{ profile.phon_numbers.errors }}
+                        </div>
+
+                        <div class="form-field mb-4">
                             {{ form.password1.label_tag }}
                             {{ form.password1 }}
                             {{ form.password1.errors }}

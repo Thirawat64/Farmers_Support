@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from audioop import reverse
 from django.contrib.auth import login,logout
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect ,get_object_or_404
 from django.http import HttpRequest, HttpResponseRedirect
 from user.forms import  RegisterForm
 from django.contrib import messages
@@ -16,14 +16,22 @@ from django.db.models import Count, Q
 def Register(req):
     if req.method == 'POST':
         form = RegisterForm(req.POST)
-        if form.is_valid():
+        profile = Locations(req.POST)
+
+        
+        if form.is_valid() and profile.is_valid():  
+            form.save(commit=False)
+            profile.save(commit=False).user = form.save(commit=False)
             form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(req, f'คุณ {username} สมัครสามชิกสำเร็จ')
+            profile.save()
+            
+  
             return redirect('login')  
     else:
         form = RegisterForm()
-    return render(req, 'users/register.html',{'form': form})
+        profile = Locations(req.POST)
+
+    return render(req, 'users/register.html',{'form': form,'profile': profile})
 #password non12345678
 
 #ล็อกอิน
@@ -98,13 +106,37 @@ def Edit_sell_product(req):
     return render(req, 'users/edit_sell_product.html',{'sell':sell})
 
 #แก้ไขหน้าปล่อยเช่า
-def Edit_buy_product(req):
+def view_rental_history(req):
     buy = Sell_Buy.objects.filter(user=req.user)
-    # print(buy)
-    
-    # context = Edit_buy_product
-    return render(req, 'users/edit_buy_product.html',{'buy':buy})
+    return render(req, 'users/view_rental_history.html',{'buy':buy})
 
+
+
+# def view_rental_history(req):
+#     product = get_object_or_404(AllProduct, pk=product_id)
+    
+#     # Retrieve or create the cart for the authenticated user
+#     SellBuy, created = Cart.objects.get_or_create(user=req.user)
+    
+#     # Check if the cart item already exists
+#     sell_buy_item, created = Sell_Buy.objects.get_or_create(
+#             user=req.user,
+#             product=product,
+#             defaults={'phone': req.user.profile.phone_number, 'location': product.product_location, 'read': False}
+#             )
+    
+#     if not created:
+#         # If it exists, update the quantity and price
+#         sell_buy_item.quantity += 1
+#         sell_buy_item.price = sell_buy_item.quantity * product.product_price
+#         sell_buy_item.save()
+#     else:
+#         # If it does not exist, set initial quantity and price
+#         sell_buy_item.quantity = 1
+#         sell_buy_item.price = product.product_price
+#         sell_buy_item.save()
+    
+#     return redirect('cart')
 
 #ลบหน้าปล่อยเช่า
 def delete_sell(req, id):
@@ -115,8 +147,8 @@ def delete_sell(req, id):
 #ลบของในหน้าเช่าา
 def delete_buy(req, id):
     print(id)
-    AllProduct.objects.get(pk=id).delete()
-    return redirect('/user/Edit_buy_product/')
+    Sell_Buy.objects.get(pk=id).delete()
+    return redirect('/user/view_rental_history/')
 
 #ดูรายละเอียดผู้มาเช้า
 def See_rentals_product(req,id):
