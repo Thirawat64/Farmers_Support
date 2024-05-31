@@ -7,11 +7,6 @@ STATUSTYPE = (
         ('ไม่พร้อมเช่า', 'ไม่พร้อมเช่า'),
     )
 
-# class Course(models.Model):
-#     name = models.CharField(max_length=300)
-
-#     def __str__(self) -> str:
-#         return f'{self.name}'
     
 class Status(models.Model):
     name_Status = models.CharField(max_length=100, default="", blank=True)
@@ -21,6 +16,7 @@ class Status(models.Model):
 
 class Category(models.Model):
     category_name = models.CharField(max_length=100)
+    
 
     def __str__(self):
         return f'{self.category_name}'

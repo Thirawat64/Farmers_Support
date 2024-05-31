@@ -16,7 +16,7 @@
                     <form action="{% url 'register' %}" method="POST" class="w-full grid-cols-1 p-5">
                         {% csrf_token %}
                         <!-- {{ form|crispy}} -->
-                        <!-- {{ form.as_p }}  -->
+                        <!-- {{ profile|crispy }}  -->
 
                         <div class="form-field mb-4">
                             {{ form.username.label_tag }}
