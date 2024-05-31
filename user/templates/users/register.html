@@ -7,7 +7,7 @@
 <body class="min-h-screen "
     style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg); background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
     <div class="w-full h-full flex items-center justify-center ">
-        <div class="rounded overflow-hidden w-96 h-fit bg-gray-900 bg-opacity-70 shadow-lg justify-center items-center mt-10">
+        <div class="rounded overflow-hidden w-96 h-fit bg-gray-900 bg-opacity-70 shadow-lg justify-center items-center my-10">
             <div class="flex flex-col items-center  ">
                 <span class="w-24 h-24 mt-4 bg-cover rounded-full"
                     style="background-image: url(https://cdn.pixabay.com/photo/2016/11/14/04/17/buffalo-1822574_1280.jpg); "></span>
@@ -15,9 +15,9 @@
                 <div class="text-white">
                     <form action="{% url 'register' %}" method="POST" class="w-full grid-cols-1 p-5">
                         {% csrf_token %}
-                        {{ form.non_field_errors }}
-
                         <!-- {{ form|crispy}} -->
+                        <!-- {{ form.as_p }}  -->
+
                         <div class="form-field mb-4">
                             {{ form.username.label_tag }}
                             {{ form.username }}
@@ -38,7 +38,6 @@
                             {{ profile.phon_numbers }}
                             {{ profile.phon_numbers.errors }}
                         </div>
-
                         <div class="form-field mb-4">
                             {{ form.password1.label_tag }}
                             {{ form.password1 }}

@@ -111,33 +111,6 @@ def view_rental_history(req):
     return render(req, 'users/view_rental_history.html',{'buy':buy})
 
 
-
-# def view_rental_history(req):
-#     product = get_object_or_404(AllProduct, pk=product_id)
-    
-#     # Retrieve or create the cart for the authenticated user
-#     SellBuy, created = Cart.objects.get_or_create(user=req.user)
-    
-#     # Check if the cart item already exists
-#     sell_buy_item, created = Sell_Buy.objects.get_or_create(
-#             user=req.user,
-#             product=product,
-#             defaults={'phone': req.user.profile.phone_number, 'location': product.product_location, 'read': False}
-#             )
-    
-#     if not created:
-#         # If it exists, update the quantity and price
-#         sell_buy_item.quantity += 1
-#         sell_buy_item.price = sell_buy_item.quantity * product.product_price
-#         sell_buy_item.save()
-#     else:
-#         # If it does not exist, set initial quantity and price
-#         sell_buy_item.quantity = 1
-#         sell_buy_item.price = product.product_price
-#         sell_buy_item.save()
-    
-#     return redirect('cart')
-
 #ลบหน้าปล่อยเช่า
 def delete_sell(req, id):
     print(id)
