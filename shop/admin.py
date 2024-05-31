@@ -6,8 +6,8 @@ class AllProductAdmin(admin.ModelAdmin):
     list_filter = ['user']
 
 class Sell_BuyAdmin(admin.ModelAdmin):
-    list_display = ['user','product','product_user']
-    list_filter = ['user']
+    # list_display = ['user','product','product_user']
+    # list_filter = ['user']
 
     def product_user(obj,user):
         return user.product.user
@@ -18,6 +18,6 @@ admin.site.register(Status)
 admin.site.register(Cart)
 admin.site.register(CartItem)
 admin.site.register(Category)
-admin.site.register(Sell_Buy,Sell_BuyAdmin)
+# admin.site.register(Sell_Buy,Sell_BuyAdmin)
 admin.site.register(Provinces)
 # Register your models here.
