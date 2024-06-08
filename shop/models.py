@@ -7,6 +7,7 @@ STATUSTYPE = (
         ('ไม่พร้อมเช่า', 'ไม่พร้อมเช่า'),
     )
 
+
     
 class Status(models.Model):
     name_Status = models.CharField(max_length=100, default="", blank=True)
@@ -16,7 +17,6 @@ class Status(models.Model):
 
 class Category(models.Model):
     category_name = models.CharField(max_length=100)
-    
 
     def __str__(self):
         return f'{self.category_name}'
@@ -63,6 +63,8 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=6, decimal_places=2,null=True,blank=True)
     
+
+
 class Sell_Buy(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     product = models.ForeignKey(AllProduct, on_delete=models.CASCADE,null=True,blank=True,related_name='sells')
