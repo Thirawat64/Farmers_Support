@@ -90,6 +90,7 @@ def editprofile(request):
         else:
             form = EditForm()
             profile = Locations()
+            
 
     else:
         form = EditForm(instance=request.user)

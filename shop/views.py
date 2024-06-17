@@ -31,9 +31,11 @@ def searches(req):
     })
 
 
+
 #หน้าคำแนะนำ
 def advice_view(req):
     return render(req, 'shop/advice.html')
+
 
 
 #แสดงอุปกรณ์ทั้งหมด
@@ -51,6 +53,8 @@ def product(request):
     context = {'allproduct': allproduct,'category':category,'provinces': Provinces.objects.all()}
     return render(request, 'shop/show_product.html', context)
 
+
+
 #แสดงหมวดหมู่
 def product_category(request,id):
     categorys = Category.objects.all()
@@ -67,6 +71,8 @@ def product_category(request,id):
     context = {'allproduct': allproduct,'category':categorys,'provinces': Provinces.objects.all()}
     return render(request, 'shop/show_product_category.html', context)
 
+
+
 #โชว์รายละเอียด
 @login_required
 def Showdetall_product(req,product_id):
@@ -82,10 +88,14 @@ def delete(req, id):
     CartItem.objects.get(pk=id).delete()
     return redirect('cart')
 
+
+
 #ลบ
 def sell_buy_cart(req,id,cart):
     delete(req, cart)
     return add_sell_buy(req,id)
+
+
 
 #เพิ่มของลงตระกร้า
 def add_to_cart(req, product_id):
@@ -110,12 +120,16 @@ def add_to_cart(req, product_id):
     
     return redirect('cart')
 
+
+
 #ตระกร้า
 @login_required
 def cart(req):
     Cart = CartItem.objects.filter(user=req.user)
     context = {'Cart':Cart}
     return render(req,'shop/cart.html',context)
+
+
 
 #สิ้นสุดการเช่า
 def add_sell_buy(req,id):
@@ -155,6 +169,7 @@ def show_product_province(req,id):
     return render(req,'shop/show_product_province.html',context)
     
 
+
 #ปล่อยเช่า
 @login_required
 def buy_product(request):
@@ -171,6 +186,8 @@ def buy_product(request):
 
     return render(request,'shop/buy_product.html',{'form':form})
 
+
+
 #แก้ไข
 def edit_product(request,id):
     allproduct = AllProduct.objects.get(pk=id)
@@ -186,6 +203,3 @@ def edit_product(request,id):
         form = EditForm(instance=allproduct)
 
     return render(request,'shop/edit_product.html',{'form':form})
-
-
-

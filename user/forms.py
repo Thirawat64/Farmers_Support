@@ -17,6 +17,15 @@ class Locations(forms.ModelForm):
     class Meta:
         model = User_profile
         fields = ['locations','phon_numbers']
+        labels = {
+            'locations':"ที่อยู่",
+            'phon_numbers':"เบอร์โทรศัพท์",
+        }
+
+        widgets = {
+            'locations':forms.Textarea(attrs={'class':'emailinput py-2 leading-normal px-4 rounded-lg block bg-white appearance-none border w-full text-gray-700 border-gray-300 focus:outline-none'}),
+            'phon_numbers':forms.TextInput(attrs={'class':'h-10 emailinput py-2 leading-normal px-4 rounded-lg block bg-white appearance-none border w-full text-gray-700 border-gray-300 focus:outline-none'})
+        }
 
 from django.contrib.auth.forms import PasswordChangeForm
 
