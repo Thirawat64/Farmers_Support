@@ -2,32 +2,37 @@
 {% load static %}
 
 {% block content %}
-<div class="flex justify-around lg:mx-20">
-    <div class="grid grid-cols-4 lg:grid-cols-3">
-        <div class="mt-5 flex">
-            <select id="category_name" name="category_name"
-                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
-                onchange="navigateToCategory()">
-                <option selected>เลือกหมวดหมู่</option>
-                {% for c in category %}
-                <option value="{% url 'product_category' c.id %}">{{ c.category_name }}</option>
-                {% endfor %}
-            </select>
-            <select id="province_name" name="province_name"
-                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
-                onchange="navigateToProvince()">
-                <option selected>เลือกจังหวัด</option>
-                {% for province in provinces %}
-                <option value="{% url 'show_product_province' province.id %}">{{ province.province_name }}</option>
-                {% endfor %}
-            </select>
+<div class="flex flex-wrap justify-around lg:mx-20 ">
+    <div class="flex items-center space-x-4 mt-5">
+        <div class="lg:flex ">
+            <div class="mb-4 lg:mb-0">
+                <select id="category_name" name="category_name"
+                    class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:mx-0 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
+                    onchange="navigateToCategory()">
+                    <option selected>เลือกหมวดหมู่</option>
+                    {% for c in category %}
+                    <option value="{% url 'product_category' c.id %}">{{ c.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <div class=" lg:mb-0">
+                <select id="province_name" name="province_name"
+                    class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:mx-0 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
+                    onchange="navigateToProvince()">
+                    <option selected>เลือกจังหวัด</option>
+                    {% for province in provinces %}
+                    <option value="{% url 'show_product_province' province.id %}">{{ province.province_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-        <div class="flex mt-5">
-            <form action="{% url 'search' %}" method="post" class="flex max-w-sm">
+        <div class="flex">
+            <form action="{% url 'search' %}" method="post" class="flex max-w-sm w-full lg:w-auto">
                 {% csrf_token %}
-                <div class="flex">
+                <div class="flex w-full">
                     <input type="text" name="search" placeholder="Search..."
-                        class="px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-100 w-20 h-10 lg:w-96 lg:h-10">
+                        class="px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-100 w-full lg:w-96 h-10">
                     <button type="submit"
                         class="bg-green-600 hover:bg-green-800 px-4 py-2 rounded-r-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-700 h-10">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -35,8 +40,8 @@
                 </div>
             </form>
         </div>
-        <div class="flex lg:ml-20">
-            <div class="flex justify-end ml-20 mt-5 mb-2">
+        <div class="flex items-center space-x-4 lg:ml-20  lg:mt-0">
+            <div class="flex  lg:justify-start mb-2 lg:mb-0">
                 <form action="{% url 'buy_product' %}">
                     <button type="submit"
                         class="bg-blue-500 text-white mx-2 lg:px-5 lg:py-2 lg:w-32 w-10 h-10 rounded-lg lg:mr-8 text-sm block">
@@ -44,13 +49,14 @@
                     </button>
                 </form>
             </div>
-            <div class="flex justify-end mt-5 mb-2">
+            <div class="flex  lg:justify-start pr-10">
                 <a href="{% url 'cart' %}">
                     <i class="fa-solid fa-cart-plus text-xl lg:text-3xl"></i>
                 </a>
             </div>
         </div>
     </div>
+
 </div>
 
 <script>
