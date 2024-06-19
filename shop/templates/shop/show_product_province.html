@@ -15,7 +15,11 @@
             </select>
         </div>
         <div class="flex  mt-5">
+<<<<<<< HEAD
             <form action="{% url 'show_product_province' selected_province.id %}" method="post" class="flex max-w-sm">
+=======
+            <form action="{% url 'search' %}" method="post" class="flex max-w-sm">
+>>>>>>> 742f23d1b34de3b2ada90a0fdfcf49dc51e7c2be
                 {% csrf_token %}
                 <div class="flex ">
                     <input type="text" name="search" placeholder="Search..."
@@ -107,4 +111,8 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 {% endblock %}
+=======
+{% endblock %}
+>>>>>>> 742f23d1b34de3b2ada90a0fdfcf49dc51e7c2be
