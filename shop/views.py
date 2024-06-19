@@ -204,6 +204,7 @@ def show_product_province(req, id):
     return render(req, 'shop/show_product_province.html', context)
 
 
+
     
 
 #ปล่อยเช่า
