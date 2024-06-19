@@ -4,8 +4,16 @@
 {% block content %}
 
 <div class="flex justify-around lg:mx-20">
-    <div class="grid grid-cols-4 lg:grid-cols-3 ">
-        <div class="mt-5">
+    <div class="grid grid-cols-4 lg:grid-cols-3">
+        <div class="mt-5 flex">
+            <select id="category_name" name="category_name"
+                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
+                onchange="navigateToCategory()">
+                <option selected>เลือกหมวดหมู่</option>
+                {% for c in category %}
+                <option value="{% url 'product_category' c.id %}">{{ c.category_name }}</option>
+                {% endfor %}
+            </select>
             <select id="province_name" name="province_name"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
                 onchange="navigateToProvince()">
@@ -15,29 +23,29 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="flex  mt-5">
-
+        <div class="flex mt-5">
             <form action="{% url 'search' %}" method="post" class="flex max-w-sm">
                 {% csrf_token %}
-                <div class="flex ">
+                <div class="flex">
                     <input type="text" name="search" placeholder="Search..."
                         class="px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-100 w-20 h-10 lg:w-96 lg:h-10">
                     <button type="submit"
-                        class="bg-green-600 hover:bg-green-800 px-4 py-2 rounded-r-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-700 h-10"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
+                        class="bg-green-600 hover:bg-green-800 px-4 py-2 rounded-r-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-700 h-10">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
                 </div>
             </form>
-
         </div>
         <div class="flex lg:ml-20">
-            <div class="flex justify-end ml-20 mt-5 mb-2 ">
+            <div class="flex justify-end ml-20 mt-5 mb-2">
                 <form action="{% url 'buy_product' %}">
                     <button type="submit"
-                        class="bg-blue-500 text-white mx-2 lg:px-5 lg:py-2 lg:w-32 w-10 h-10 rounded-lg lg:mr-8  text-sm block">ปล่อยเช่า</button>
+                        class="bg-blue-500 text-white mx-2 lg:px-5 lg:py-2 lg:w-32 w-10 h-10 rounded-lg lg:mr-8 text-sm block">
+                        ปล่อยเช่า
+                    </button>
                 </form>
             </div>
-
-            <div class=" flex justify-end  mt-5 mb-2">
+            <div class="flex justify-end mt-5 mb-2">
                 <a href="{% url 'cart' %}">
                     <i class="fa-solid fa-cart-plus text-xl lg:text-3xl"></i>
                 </a>
@@ -56,41 +64,23 @@
     }
 </script>
 
-<div class="lg:flex">
-    <div class="w-full  bg-gray-400 lg:min-w-48 lg:max-w-48 lg:min-h-screen ">
-        <a href="{% url 'show_product' %}">
-            <p class="text-lg font-semibold mb-4 text-center">หมวดหมู่</p>
-        </a>
-        <ul class="text-center flex justify-between lg:grid lg:grid-cols-1 p-2 ">
-            {% for c in category %}
-            <li><a href="{% url 'product_category' c.id %}">{{ c.category_name}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+<script>
+    function navigateToCategory() {
+        var select = document.getElementById('category_name');
+        var url = select.options[select.selectedIndex].value;
+        if (url) {
+            window.location.href = url;
+        }
+    }
+</script>
 
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 m-2 col-start-2 h-full ">
-        {% for i in allproduct %}
-        {% if i.quantity > 0 %}
-        <a class="hover:scale-105 transform transition duration-300 ease-in-out {% if i.id in expired_products %}pointer-events-none{% endif %}"
-            href="{% if i.id not in expired_products %}{% url 'Showdetall_product' i.id %}{% endif %}">
-            <div class="border {% if i.id in expired_products %}bg-red-300{% else %}bg-green-200{% endif %} rounded-lg product-box">
-                {% if i.image %}
-                <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
-                {% endif %}
-                <div class="p-4 content">
-                    <h5 class="text-lg font-semibold mb-2">
-                        <div class="text-blue-500 truncate">{{ i.product_name }}</div>
-                    </h5>
-                    <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
-                    <p class="text-gray-800 truncate">สถานะอุปกรณ์: {{ i.product_status }}</p>
-                    <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
-                    <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
-                </div>
-            </div>
-        </a>
-        
-        {% else %}
-        <div class="border bg-red-300 rounded-lg product-box">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-3 m-2 col-start-2 h-full py-10 px-10">
+    {% for i in allproduct %}
+    {% if i.quantity > 0 %}
+    <a class="hover:scale-105 transform transition duration-300 ease-in-out {% if i.id in expired_products %}pointer-events-none{% endif %}"
+        href="{% if i.id not in expired_products %}{% url 'Showdetall_product' i.id %}{% endif %}">
+        <div
+            class="border {% if i.id in expired_products %}bg-red-300{% else %}bg-green-200{% endif %} rounded-lg product-box">
             {% if i.image %}
             <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
             {% endif %}
@@ -99,17 +89,34 @@
                     <div class="text-blue-500 truncate">{{ i.product_name }}</div>
                 </h5>
                 <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
-                <p class="text-gray-800 truncate">สถานะอุปกรณ์: หมด</p>
+                <p class="text-gray-800 truncate">สถานะอุปกรณ์: {{ i.product_status }}</p>
                 <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
                 <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
             </div>
         </div>
+    </a>
 
-
-        
+    {% else %}
+    <div class="border bg-red-300 rounded-lg product-box">
+        {% if i.image %}
+        <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
         {% endif %}
-        {% endfor %}
+        <div class="p-4 content">
+            <h5 class="text-lg font-semibold mb-2">
+                <div class="text-blue-500 truncate">{{ i.product_name }}</div>
+            </h5>
+            <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
+            <p class="text-gray-800 truncate">สถานะอุปกรณ์: หมด</p>
+            <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
+            <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
+        </div>
     </div>
+
+
+
+    {% endif %}
+    {% endfor %}
+</div>
 
 </div>
 
