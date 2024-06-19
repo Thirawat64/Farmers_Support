@@ -6,7 +6,7 @@
 <div class="flex flex-wrap justify-around lg:mx-20 ">
     <div class="flex items-center space-x-4 mt-5">
         <div class="lg:flex ">
-            <div class="mb-4 lg:mb-0">
+            <div class="mb-4 lg:mb-0 lg:mx-4">
                 <select id="category_name" name="category_name"
                     class="bg-gray-50 border text-gray-900 text-sm rounded-lg block px-2 mx-4 lg:mx-0 lg:py-2 dark:bg-gray-100 dark:text-black w-20 lg:w-52"
                     onchange="navigateToCategory()">
@@ -80,7 +80,7 @@
     }
 </script>
 
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-3 m-2 col-start-2 h-full py-10 px-10">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-3 m-2 col-start-2 h-full lg:py-10 lg:px-10">
     {% for i in allproduct %}
     {% if i.quantity > 0 %}
     <a class="hover:scale-105 transform transition duration-300 ease-in-out {% if i.id in expired_products %}pointer-events-none{% endif %}"
