@@ -5,7 +5,7 @@
 
 
 <body class="min-h-screen bg-cover bg-center"
-style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg); background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
+    style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg); background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
     <div class="w-full h-full flex justify-center  mt-20 ">
         <div class="relative rounded overflow-hidden  w-1/2 h-fit  bg-gray-900 bg-opacity-50 shadow-lg">
             <div class="absolute inset-0 bg-gray-900 bg-opacity-50 filter blur-2xl h-full "></div>
@@ -46,7 +46,7 @@ style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice
                 <div class="mb-8 text-left  px-4">
 
                     <p class="">รายการปล่อยเช่าอุปกรณ์ล่าสุด
-                            <i class="fa-regular fa-bell fa-xl pl-4"></i>
+                        <i class="fa-regular fa-bell fa-xl pl-4"></i>
                     </p>
                     <form action="{% url 'Edit_sell_product' %}" method="post">
                         {% csrf_token %}
@@ -69,7 +69,8 @@ style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice
                         </div>
                     </div>
                 </a>
-                <div class="my-2 flex h-12 mb-10 items-center justify-center rounded-lg text-white bg-blue-500 hover:bg-blue-700 m-20">
+                <div
+                    class="my-2 flex h-12 mb-10 items-center justify-center rounded-lg text-white bg-blue-500 hover:bg-blue-700 m-20">
                     <a href="{% url 'show_product' %}"
                         class=" text-white px-4 py-2 rounded-md ">เช่าอุปกรณ์เพิ่มเติม</a>
                 </div>
@@ -85,10 +86,15 @@ style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice
                         </div>
                     </div>
                 </a>
-                <div class="my-2 flex h-12 mb-10 items-center justify-center rounded-lg text-white bg-blue-500 hover:bg-blue-700 m-20">
-                    <a href="{% url 'show_product' %}"
-                        class=" text-white px-4 py-2 rounded-md ">เช่าอุปกรณ์เพิ่มเติม</a>
-                </div>
+
+                <a href="{% url 'show_product' %}">
+                    <div>
+                        <div
+                            class="my-2 flex h-12 mb-10 items-center justify-center rounded-lg text-white bg-blue-500 hover:bg-blue-700 m-20">
+                            <div class=" text-white px-4 py-2 rounded-md ">เช่าอุปกรณ์เพิ่มเติม</div>
+                        </div>
+                    </div>
+                </a>
                 {% endif %}
             </div>
 
