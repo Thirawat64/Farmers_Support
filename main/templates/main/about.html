@@ -1,16 +1,10 @@
 {% extends 'main/home.html' %}
 
+{% block content %}
 
-{% block content %} 
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center"
+    style="background-image: url('https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg'); background-size: cover; background-position: center;">
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-</style>
-
-<div class="min-h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat" style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg);">
     <div class="bg-gray-300 p-6 rounded-lg shadow-lg">
         <div class="flex justify-center">
             <img src="/static/image/logo.jpg" width="50px" height="50px" class="logo">
@@ -21,4 +15,4 @@
     </div>
 </div>
 
-{% endblock %} 
+{% endblock %}

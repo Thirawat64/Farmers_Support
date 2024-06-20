@@ -4,7 +4,7 @@
 {% block content %}
 
 
-<body class="min-h-screen bg-cover bg-center"
+<body class="min-h-screen bg-cover bg-center "
 style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice-cultivation-4165415_1280.jpg); background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
     <div class="flex items-center justify-center min-h-screen bg-gray-900 bg-opacity-50">
         <div class="relative w-full max-w-md p-8 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg ">
@@ -52,6 +52,17 @@ style="background-image: url(https://cdn.pixabay.com/photo/2019/04/29/07/46/rice
                         {% csrf_token %}
                         <button type="submit"
                             class="p-2 border w-full text-[#000] bg-gray-200 rounded-md">ดูรายการปล่อยเช่า</button>
+                    </form>
+
+
+                </div>
+                <div class="mb-8 text-left  px-4">
+
+                    <p class="">ประวัติการทำนายของคุณ</p>
+                    <form action="{% url 'show_data_save_predict' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="p-2 border w-full text-[#000] bg-gray-200 rounded-md">ดูประวัติการทำนายของคุณ</button>
                     </form>
 
 

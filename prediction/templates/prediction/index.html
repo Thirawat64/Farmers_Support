@@ -1,12 +1,14 @@
-{% extends 'main/home.html' %}
+{% extends 'main/base.html' %}
 
 {% block content %}
-<div class="  flex justify-center text-center content-center h-screen">
-    <div class="grid grid-cols-1 content-center gap-5">
-        <a href="{% url 'predict_view' %}"
-            class="text-gray-700 hover:bg-green-600 hover:text-white px-4 py-2 rounded border border-gray-300 bg-gray-200">ทำนายพืชที่เหมาะสม</a>
-        <a href="{% url 'show_data_save_predict' %}"
-            class="text-gray-700 hover:bg-green-600 hover:text-white px-4 py-2 rounded border border-gray-300 bg-gray-200">ประวัติการทำนาย</a>
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center">
+    <div class="flex flex-col items-center justify-center p-6 rounded-lg shadow-lg w-72 bg-gray-300">
+        <div class="grid grid-cols-1 content-center gap-5">
+            <a href="{% url 'predict_view' %}"
+                class="text-gray-700 hover:bg-green-600 hover:text-white px-4 py-2 rounded border border-gray-300 bg-gray-200">ทำนายพืชที่เหมาะสม</a>
+            <a href="{% url 'show_data_save_predict' %}"
+                class="text-gray-700 hover:bg-green-600 hover:text-white px-4 py-2 rounded border border-gray-300 bg-gray-200">ประวัติการทำนาย</a>
+        </div>
     </div>
 </div>
 {% endblock %}
