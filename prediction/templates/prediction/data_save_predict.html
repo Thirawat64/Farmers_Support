@@ -1,10 +1,10 @@
-{% extends 'main/base.html' %}
+{% extends 'main/home.html' %}
 {% load static %}
 
 {% block content %}
-<div class="max-w-10xl mx-auto bg-white p-6 rounded-md mt-10">
+<div class="max-w-10xl mx-auto  p-6 rounded-md mt-10">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
             <thead class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
 
@@ -86,10 +86,10 @@
                         {{i.predicted_plant}}
                     </td>
 
-                    <td x-data="{ open: false }" class="text-center mt-10 mb-10">
+                    <td x-data="{ open: false }" class="text-center mt-10 mb-10 ">
 
                         <button @click="open = true"
-                            class="my-2 h-12 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded items-center justify-center"><i
+                            class="my-2 h-12  bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded items-center justify-center"><i
                                 class="fa-solid fa-trash"></i>&nbsp;&nbsp;ลบ</button>
 
                         <div x-show="open" @click.away="open = false" class="fixed inset-0 flex items-center">

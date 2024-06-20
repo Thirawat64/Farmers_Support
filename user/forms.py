@@ -36,7 +36,7 @@ class Locations(forms.ModelForm):
             'locations':forms.Textarea(attrs={'class':'emailinput py-2 leading-normal px-4 rounded-lg block bg-white appearance-none border w-full text-gray-700 border-gray-300 focus:outline-none'})
         }
 
-from django.contrib.auth.forms import PasswordChangeForm
+
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     pass
