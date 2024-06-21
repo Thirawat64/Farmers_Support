@@ -92,16 +92,19 @@
             {% endif %}
             <div class="p-4 content">
                 <h5 class="text-lg font-semibold mb-2">
+                    {% if i.id %}
                     <div class="text-blue-500 truncate">{{ i.product_name }}</div>
+                    {% else %}
+                    <span class="text-red-500">No ID available for this product</span>
+                    {% endif %}
                 </h5>
                 <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
-                <p class="text-gray-800 truncate">สถานะอุปกรณ์: {{ i.product_status }}</p>
+                <p class="text-gray-800 truncate">สถานะอุปกรณ์: {% if i.id in expired_products %}ไม่พร้อมเช่า{% else %}{{ i.product_status }}{% endif %}</p>
                 <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
                 <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
             </div>
         </div>
     </a>
-
     {% else %}
     <div class="border bg-red-300 rounded-lg product-box">
         {% if i.image %}
@@ -109,10 +112,14 @@
         {% endif %}
         <div class="p-4 content">
             <h5 class="text-lg font-semibold mb-2">
+                {% if i.id %}
                 <div class="text-blue-500 truncate">{{ i.product_name }}</div>
+                {% else %}
+                <span class="text-red-500">No ID available for this product</span>
+                {% endif %}
             </h5>
             <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
-            <p class="text-gray-800 truncate">สถานะอุปกรณ์: หมด</p>
+            <p class="text-gray-800 truncate">สถานะอุปกรณ์: ไม่พร้อมเช่า</p>
             <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
             <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
         </div>

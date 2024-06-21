@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 STATUSTYPE = (
@@ -76,6 +77,8 @@ class Sell_Buy(models.Model):
     location = models.CharField(max_length=200,null=True,blank=True)
     read = models.BooleanField(default=False)
     quantity = models.PositiveIntegerField(default=1)
+    sell_date = models.DateTimeField(auto_now_add=True)
+    
 
     
 

@@ -87,6 +87,14 @@ WSGI_APPLICATION = "farmers.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -160,6 +168,7 @@ LOGIN_URL = "login"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+PASSWORD_RESET_TIMEOUT = 120
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'amnonlove999@gmail.com'  # แทนที่ด้วยที่อยู่อีเมลของคุณ
 EMAIL_HOST_PASSWORD = 'pnlnsxpspvgzjvbj'  # แทนที่ด้วย App Password ที่คุณสร้าง

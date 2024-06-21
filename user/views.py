@@ -39,6 +39,7 @@ def Login(req):
     return render(req, 'registration/login.html')
 
 
+
 #หน้าแดสบอด
 @login_required
 def dashboard(req):
@@ -124,15 +125,22 @@ def delete_buy(req, id):
     Sell_Buy.objects.get(pk=id).delete()
     return redirect('/user/view_rental_history/')
 
+
 #ดูรายละเอียดผู้มาเช้า
-def See_rentals_product(req,id):
-    pro = AllProduct.objects.get(pk=id)
+@login_required
+def See_rentals_product(req, id):
+    pro = get_object_or_404(AllProduct, pk=id)
     users = Sell_Buy.objects.filter(product=pro)
     for i in users:
         i.read = True
         i.save()
 
-    return render(req, 'users/See_rentals_product.html',{'users':users,'provinces': Provinces.objects.all()})
+    return render(req, 'users/see_rentals_product.html', {
+        'users': users,
+        'provinces': Provinces.objects.all(),
+        'product': pro
+    })
+
 
 
 
