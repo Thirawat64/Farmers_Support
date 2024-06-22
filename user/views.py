@@ -118,11 +118,19 @@ def delete_sell(req, id):
     AllProduct.objects.get(pk=id).delete()
     return redirect('/user/Edit_sell_product/')
 
-#ลบของในหน้าเช่าา
+#ลบของในหน้าเช่า
 def delete_buy(req, id):
     print(id)
-    Sell_Buy.objects.get(pk=id).delete()
+    sell_buy_instance = Sell_Buy.objects.get(pk=id)
+    product = sell_buy_instance.product
+    
+    product.quantity += 1
+    product.save()
+    
+    sell_buy_instance.delete()
+    
     return redirect('/user/view_rental_history/')
+
 
 
 #ดูรายละเอียดผู้มาเช้า

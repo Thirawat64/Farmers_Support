@@ -119,7 +119,7 @@ def delete(req, id):
     CartItem.objects.get(pk=id).delete()
     return redirect('cart')
 
-#ลบ
+#ลบของในตระกร้าเมื่อเช่าในตระกร้า
 def sell_buy_cart(req,id,cart):
     delete(req, cart)
     return add_sell_buy(req,id)
@@ -150,7 +150,7 @@ def cart(req):
     context = {'Cart':Cart}
     return render(req,'shop/cart.html',context)
 
-#สิ้นสุดการเช่า
+#การเช่าสำเร็จ
 def add_sell_buy(req,id):
     product = AllProduct.objects.get(pk=id)
     data = Sell_Buy.objects.create(
