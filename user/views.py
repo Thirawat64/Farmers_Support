@@ -7,7 +7,6 @@ from user.forms import  RegisterForm
 from django.contrib import messages
 from .forms import *
 from shop.models import *
-from shop.forms import Update
 from django.db.models import Count, Q
 
 
@@ -49,29 +48,29 @@ def dashboard(req):
 
 
 #เพิ่มโปรไฟล์
-def add_profile(request):
-    form = EditForm()
-    profile = Locations()
+# def add_profile(request):
+#     form = EditForm()
+#     profile = Locations()
 
 
-    if request.method == 'POST':
-        profile = Locations(request.POST)
-        form = EditForm(request.POST,instance=request.user)
+#     if request.method == 'POST':
+#         profile = Locations(request.POST)
+#         form = EditForm(request.POST,instance=request.user)
 
-        if form.is_valid() and profile.is_valid():
-            profile.save(commit=False).user = request.user ######ใช้ระบุผู้ใช้
-            profile.save()
-            form.save()
-            return redirect('dashboard')
-        else:
-            form = EditForm()
-            profile = Locations()
+#         if form.is_valid() and profile.is_valid():
+#             profile.save(commit=False).user = request.user ######ใช้ระบุผู้ใช้
+#             profile.save()
+#             form.save()
+#             return redirect('dashboard')
+#         else:
+#             form = EditForm()
+#             profile = Locations()
 
-    else:
-        form = EditForm(instance=request.user)
-        profile = Locations()
+#     else:
+#         form = EditForm(instance=request.user)
+#         profile = Locations()
 
-    return render(request,'users/add_profile.html',{'form':form,'profile':profile ,})
+#     return render(request,'users/add_profile.html',{'form':form,'profile':profile ,})
 
 #แก้ไขโปรไฟล์
 def editprofile(request):

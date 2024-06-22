@@ -59,7 +59,7 @@ def advice_view(req):
 #     return render(request, 'shop/show_product.html', context)
 
 
-
+#แสดงอุปกรณ์ทั้งหมด
 def product(request):
     category = Category.objects.all()
     expired_products = []
@@ -128,19 +128,15 @@ def sell_buy_cart(req,id,cart):
 def add_to_cart(req, product_id):
     product = get_object_or_404(AllProduct, pk=product_id)
     
-    # Retrieve or create the cart for the authenticated user
     cart, created = Cart.objects.get_or_create(user=req.user)
     
-    # Check if the cart item already exists
     cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, user=req.user)
     
     if not created:
-        # If it exists, update the quantity and price
         cart_item.quantity += 1
         cart_item.price = cart_item.quantity * product.product_price
         cart_item.save()
     else:
-        # If it does not exist, set initial quantity and price
         cart_item.quantity = 1
         cart_item.price = product.product_price
         cart_item.save()

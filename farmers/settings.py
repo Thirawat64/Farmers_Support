@@ -171,5 +171,5 @@ EMAIL_PORT = 587
 PASSWORD_RESET_TIMEOUT = 120
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'amnonlove999@gmail.com'  # แทนที่ด้วยที่อยู่อีเมลของคุณ
-EMAIL_HOST_PASSWORD = 'pnlnsxpspvgzjvbj'  # แทนที่ด้วย App Password ที่คุณสร้าง
+EMAIL_HOST_PASSWORD = 'wbyqmclfaskfpaun'  # แทนที่ด้วย App Password ที่คุณสร้าง
 # DEFAULT_FROM_EMAIL = 'amnonlove999@gmail.com' 

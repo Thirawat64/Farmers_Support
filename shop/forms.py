@@ -64,9 +64,6 @@ class EditForm(forms.ModelForm):
 
 
 
-class Update(forms.ModelForm):
-    class Meta:
-        model = AllProduct
-        fields = '__all__'
+
 
 

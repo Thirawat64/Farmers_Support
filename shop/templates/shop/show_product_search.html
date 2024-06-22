@@ -99,7 +99,7 @@
                     <span class="text-red-500">No ID available for this product</span>
                     {% endif %}
                 </h5>
-                <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
+                <p class="text-gray-800 truncate">ราคา: {{ i.product_price }} บาท/วัน</p>
                 <p class="text-gray-800 truncate">สถานะอุปกรณ์: {% if i.id in expired_products %}ไม่พร้อมเช่า{% else %}{{ i.product_status }}{% endif %}</p>
                 <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
                 <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
@@ -119,7 +119,7 @@
                 <span class="text-red-500">No ID available for this product</span>
                 {% endif %}
             </h5>
-            <p class="text-gray-800 truncate">ราคา: {{ i.product_price }}</p>
+            <p class="text-gray-800 truncate">ราคา: {{ i.product_price }} บาท/วัน</p>
             <p class="text-gray-800 truncate">สถานะอุปกรณ์: ไม่พร้อมเช่า</p>
             <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
             <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
