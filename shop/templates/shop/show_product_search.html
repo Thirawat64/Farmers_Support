@@ -83,46 +83,37 @@
 <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 m-2 col-start-2 h-full lg:py-10 lg:px-10">
         {% if show_product %}
         {% for i in show_product %}
-        {% if i.quantity > 0 %}
-        <a class="hover:scale-105 transform transition duration-300 ease-in-out {% if i.id in expired_products %}pointer-events-none{% endif %}"
-            href="{% if i.id not in expired_products %}{% url 'Showdetall_product' i.id %}{% endif %}">
-            <div
-            class="border {% if i.id in expired_products %}bg-red-300{% else %}bg-green-200{% endif %} rounded-lg product-box">
+        {% if i.quantity > 0 and i.id not in expired_products and i.product_status.name_Status != 'ไม่พร้อมเช่า' %}
+    <a class="hover:scale-105 transform transition duration-300 ease-in-out" href="{% url 'Showdetall_product' i.id %}">
+        <div
+            class="border bg-green-200 rounded-lg product-box">
             {% if i.image %}
             <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
             {% endif %}
             <div class="p-4 content">
                 <h5 class="text-lg font-semibold mb-2">
-                    {% if i.id %}
                     <div class="text-blue-500 truncate">{{ i.product_name }}</div>
-                    {% else %}
-                    <span class="text-red-500">No ID available for this product</span>
-                    {% endif %}
                 </h5>
                 <p class="text-gray-800 truncate">ราคา: {{ i.product_price }} บาท/วัน</p>
-                <p class="text-gray-800 truncate">สถานะอุปกรณ์: {% if i.id in expired_products %}ไม่พร้อมเช่า{% else %}{{ i.product_status }}{% endif %}</p>
+                <p class="text-gray-800 truncate">สถานะอุปกรณ์: {{ i.product_status }}</p>
                 <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
                 <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
             </div>
         </div>
     </a>
     {% else %}
-    <div class="border bg-red-300 rounded-lg product-box">
+    <div class="border bg-red-300 rounded-lg product-box pointer-events-none">
         {% if i.image %}
         <img src="{{ i.image.url }}" alt="Image" class="w-full h-64 object-cover">
         {% endif %}
         <div class="p-4 content">
             <h5 class="text-lg font-semibold mb-2">
-                {% if i.id %}
                 <div class="text-blue-500 truncate">{{ i.product_name }}</div>
-                {% else %}
-                <span class="text-red-500">No ID available for this product</span>
-                {% endif %}
             </h5>
-            <p class="text-gray-800 truncate">ราคา: {{ i.product_price }} บาท/วัน</p>
-            <p class="text-gray-800 truncate">สถานะอุปกรณ์: ไม่พร้อมเช่า</p>
-            <p class="text-gray-800 truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
-            <p class="text-gray-800 truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
+            <p class="text-gray-500 font-medium truncate">ราคา: {{ i.product_price }} บาท/วัน</p>
+            <p class="text-gray-500 font-medium truncate">สถานะอุปกรณ์: ไม่พร้อมเช่า</p>
+            <p class="text-gray-500 font-medium truncate">ที่อยู่อุปกรณ์: {{ i.product_location }} {{ i.province }}</p>
+            <p class="text-gray-500 font-medium truncate">จำนวน: {{ i.quantity }} ชิ้น</p>
         </div>
     </div>
 
