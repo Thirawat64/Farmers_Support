@@ -63,135 +63,83 @@ def dashboard(req):
 
 
 
-#เพิ่มโปรไฟล์
-# ฟังก์ชันเพิ่มโปรไฟล์
-def add_profile(request):
-    # สร้างฟอร์มเปล่าสำหรับ EditForm และ Locations
-    form = EditForm()
-    profile = Locations()
-
-    # ตรวจสอบว่าถ้า request เป็นแบบ POST
-    if request.method == 'POST':
-        # สร้างฟอร์ม Locations และรับข้อมูลจาก request.POST
-        profile = Locations(request.POST)
-        # สร้างฟอร์ม EditForm โดยใช้ข้อมูลจาก request.POST และกำหนด instance เป็นผู้ใช้ปัจจุบัน
-        form = EditForm(request.POST, instance=request.user)
-
-        # ตรวจสอบว่าฟอร์มทั้งสองเป็น valid หรือไม่
-        if form.is_valid() and profile.is_valid():
-            # บันทึกฟอร์มข้อมูลโปรไฟล์ (Locations) แต่ยังไม่บันทึกลงฐานข้อมูล (commit=False)
-            profile_data = profile.save(commit=False)
-            # กำหนดผู้ใช้ให้กับโปรไฟล์
-            profile_data.user = request.user
-            # บันทึกข้อมูลโปรไฟล์ลงฐานข้อมูล
-            profile_data.save()
-            # บันทึกฟอร์มผู้ใช้ลงฐานข้อมูล
-            form.save()
-            # เปลี่ยนเส้นทางไปยังหน้าแดชบอร์ด
-            return redirect('dashboard')
-        else:
-            # ถ้าฟอร์มไม่ valid สร้างฟอร์มเปล่าทั้งสองฟอร์มใหม่
-            form = EditForm()
-            profile = Locations()
-
-    else:
-        # ถ้า request ไม่ใช่แบบ POST สร้างฟอร์ม EditForm โดยมี instance เป็นผู้ใช้ปัจจุบัน
-        form = EditForm(instance=request.user)
-        # สร้างฟอร์ม Locations เปล่า
-        profile = Locations()
-
-    # ส่งฟอร์มไปยังเทมเพลต add_profile.html พร้อมกับ context ที่มีตัวแปร form และ profile
-    return render(request, 'users/add_profile.html', {'form': form, 'profile': profile})
-
-
-# ฟังก์ชันแก้ไขโปรไฟล์
+# แก้ไขโปรไฟล์
 def editprofile(request):
-    # ดึงข้อมูลโปรไฟล์ของผู้ใช้ปัจจุบัน
+    # ดึงข้อมูลโปรไฟล์ของผู้ใช้ที่เข้าสู่ระบบ
     p = User_profile.objects.get(user=request.user)
-    # สร้างฟอร์ม Locations โดยมี instance เป็นโปรไฟล์ของผู้ใช้ปัจจุบัน
+    # สร้างฟอร์ม Locations และ EditForm โดยใส่ข้อมูลเริ่มต้นจากโปรไฟล์และผู้ใช้ปัจจุบัน
     profile = Locations(instance=p)
-    # สร้างฟอร์ม EditForm โดยมี instance เป็นผู้ใช้ปัจจุบัน
     form = EditForm(instance=request.user)
 
     if request.method == 'POST':
-        # ถ้า request เป็นแบบ POST สร้างฟอร์ม Locations และ EditForm ใหม่โดยรับข้อมูลจาก request.POST
+        # ถ้า request เป็น POST แสดงว่ามีการส่งฟอร์มมา
         profile = Locations(request.POST, instance=p)
         form = EditForm(request.POST, instance=request.user)
 
-        # ตรวจสอบว่าฟอร์มทั้งสองเป็น valid หรือไม่
         if form.is_valid() and profile.is_valid():
-            # บันทึกฟอร์มข้อมูลโปรไฟล์ (Locations) แต่ยังไม่บันทึกลงฐานข้อมูล (commit=False)
-            profile_data = profile.save(commit=False)
-            # กำหนดผู้ใช้ให้กับโปรไฟล์
-            profile_data.user = request.user
-            # บันทึกข้อมูลโปรไฟล์ลงฐานข้อมูล
-            profile_data.save()
-            # บันทึกฟอร์มผู้ใช้ลงฐานข้อมูล
+            # ถ้าฟอร์มทั้งสองฟอร์มถูกต้อง
+            profile.save(commit=False).user = request.user
+            profile.save()
             form.save()
-            # เปลี่ยนเส้นทางไปยังหน้าแดชบอร์ด
             return redirect('dashboard')
         else:
-            # ถ้าฟอร์มไม่ valid สร้างฟอร์มเปล่าทั้งสองฟอร์มใหม่
             form = EditForm()
             profile = Locations()
-
     else:
-        # ถ้า request ไม่ใช่แบบ POST สร้างฟอร์ม EditForm โดยมี instance เป็นผู้ใช้ปัจจุบัน
+        # ถ้า request ไม่ใช่ POST ให้สร้างฟอร์มใหม่จากข้อมูลผู้ใช้และโปรไฟล์ปัจจุบัน
         form = EditForm(instance=request.user)
-        # สร้างฟอร์ม Locations โดยมี instance เป็นโปรไฟล์ของผู้ใช้ปัจจุบัน
         profile = Locations(instance=p)
 
-    # ส่งฟอร์มไปยังเทมเพลต edit_profile.html พร้อมกับ context ที่มีตัวแปร form และ profile
     return render(request, 'users/edit_profile.html', {'form': form, 'profile': profile})
 
-
-# ฟังก์ชันแก้ไขหน้าเช่า
+# แก้ไขหน้าเช่า
 def Edit_sell_product(req):
-    # ดึงข้อมูลสินค้าที่ผู้ใช้ปัจจุบันเป็นเจ้าของ และนับจำนวนการขายที่ยังไม่ได้อ่าน
+    # ดึงข้อมูลสินค้าที่ผู้ใช้ปล่อยเช่า พร้อมนับจำนวนการเช่าที่ผู้ใช้ยังไม่ได้อ่าน
     sell = AllProduct.objects.filter(user=req.user).annotate(unread_sells_count=Count('sells', filter=Q(sells__read=False)))
-    # วนลูปผ่านแต่ละสินค้าใน sell และพิมพ์จำนวนการขายที่ยังไม่ได้อ่าน
     for i in sell:
         print(i.sells.filter(read=False).count())
-    # ส่งข้อมูลสินค้าไปยังเทมเพลต edit_sell_product.html
     return render(req, 'users/edit_sell_product.html', {'sell': sell})
 
-# ฟังก์ชันแก้ไขหน้าปล่อยเช่า
+# แก้ไขหน้าปล่อยเช่า
 def view_rental_history(req):
-    # ดึงข้อมูลการเช่าที่ผู้ใช้ปัจจุบันเป็นเจ้าของ
+    # ดึงข้อมูลการเช่าทั้งหมดของผู้ใช้ที่เข้าสู่ระบบ
     buy = Sell_Buy.objects.filter(user=req.user)
-    # ส่งข้อมูลการเช่าไปยังเทมเพลต view_rental_history.html
     return render(req, 'users/view_rental_history.html', {'buy': buy})
 
-# ฟังก์ชันลบหน้าปล่อยเช่า
+# ลบหน้าปล่อยเช่า
 def delete_sell(req, id):
-    # พิมพ์ค่า id ออกมา (สำหรับการดีบัก)
     print(id)
-    # ดึงข้อมูลของ AllProduct ที่มี primary key เท่ากับ id และลบออบเจ็กต์นั้นออกจากฐานข้อมูล
-    AllProduct.objects.get(pk=id).delete()
-    # เปลี่ยนเส้นทางไปยังเส้นทาง /user/Edit_sell_product/
+    AllProduct.objects.get(pk=id).delete()  # ลบสินค้าที่ปล่อยเช่า
     return redirect('/user/Edit_sell_product/')
 
-# ฟังก์ชันลบของในหน้าเช่า
+# ลบของในหน้าเช่า
 def delete_buy(req, id):
-    # พิมพ์ค่า id ออกมา (สำหรับการดีบัก)
     print(id)
-    # ดึงข้อมูลของ Sell_Buy ที่มี primary key เท่ากับ id และลบออบเจ็กต์นั้นออกจากฐานข้อมูล
-    Sell_Buy.objects.get(pk=id).delete()
-    # เปลี่ยนเส้นทางไปยังเส้นทาง /user/view_rental_history/
+    sell_buy_instance = Sell_Buy.objects.get(pk=id)  # ดึงข้อมูลการเช่าที่ต้องการลบ
+    product = sell_buy_instance.product  # ดึงสินค้าที่เกี่ยวข้องกับการเช่า
+    
+    product.quantity += 1  # เพิ่มจำนวนสินค้ากลับคืน
+    product.save()  # บันทึกการเปลี่ยนแปลง
+    
+    sell_buy_instance.delete()  # ลบการเช่าออกจากฐานข้อมูล
+    
     return redirect('/user/view_rental_history/')
 
-# ฟังก์ชันดูรายละเอียดผู้มาเช่า
+# ดูรายละเอียดผู้มาเช่า
+@login_required
 def See_rentals_product(req, id):
-    # ดึงข้อมูลของ AllProduct ที่มี primary key เท่ากับ id มาเก็บในตัวแปร pro
-    pro = AllProduct.objects.get(pk=id)
-    # ดึงข้อมูลของ Sell_Buy ที่ตรงกับสินค้า pro
-    users = Sell_Buy.objects.filter(product=pro)
-    # วนลูปผ่านแต่ละผู้ใช้ใน users และเปลี่ยนสถานะการอ่านเป็น True
+    pro = get_object_or_404(AllProduct, pk=id)  # ดึงข้อมูลสินค้าที่ปล่อยเช่าตาม ID
+    users = Sell_Buy.objects.filter(product=pro)  # ดึงข้อมูลการเช่าทั้งหมดที่เกี่ยวข้องกับสินค้า
     for i in users:
-        i.read = True
+        i.read = True  # ตั้งค่าสถานะการเช่าเป็นอ่านแล้ว
         i.save()
-    # ส่งข้อมูลผู้ใช้และข้อมูลจังหวัดไปยังเทมเพลต See_rentals_product.html
-    return render(req, 'users/See_rentals_product.html', {'users': users, 'provinces': Provinces.objects.all()})
+
+    return render(req, 'users/see_rentals_product.html', {
+        'users': users,
+        'provinces': Provinces.objects.all(),
+        'product': pro
+    })
+
 
 
 
