@@ -11,46 +11,40 @@ from django.utils import timezone
 #ค้นหา
 
 def searches(req):
-    #ดึงออบเจ็กต์ทั้งหมดจากAllProductและCategoryมาไว้ในตัวแปล
-    show_product = AllProduct.objects.all()
-    categorys = Category.objects.all()
-    #สร้างลิสต์เปล่าชื่อ expired_products เพื่อใช้เก็บ ID ของสินค้าที่หมดอายุ
-    expired_products = []
-    
-    #เช็คว่าคำขอเป็นแบบ POST หรือไม่
-    if req.method == 'POST':
-        #ดึงค่าจากฟอร์มที่ชื่อ search มาเก็บในตัวแปร search
-        search = req.POST.get('search')
-        print(search)
+    # ดึงออบเจ็กต์ทั้งหมดจาก AllProduct และ Category มาไว้ในตัวแปร
+    show_product = AllProduct.objects.all()  # ดึงข้อมูลสินค้าทั้งหมดจากฐานข้อมูล
+    categorys = Category.objects.all()  # ดึงข้อมูลหมวดหมู่สินค้าทั้งหมดจากฐานข้อมูล
+    expired_products = []  # สร้างลิสต์ว่างเพื่อเก็บ ID ของสินค้าที่หมดอายุ
 
-        #เช็คว่ามีค่าของ search หรือไม่
+    if req.method == 'POST':
+        # ถ้า request method เป็น POST
+        search = req.POST.get('search')  # รับค่าคำค้นหาจากฟอร์ม
+        print(search)  # แสดงค่าคำค้นหาที่รับมาใน console (สำหรับการดีบัก)
         if search:
-            #ถ้ามีค่า search จะทำการค้นหาสินค้าในโมเดล AllProduct โดยเช็คจาก product_name หรือ product_location ที่มีค่านั้นอยู่ และเก็บผลลัพธ์ไว้ใน show_product
+            # ถ้ามีการระบุคำค้นหา
             show_product = AllProduct.objects.filter(product_name__icontains=search) or AllProduct.objects.filter(product_location__icontains=search)
+            # ค้นหาสินค้าที่มีชื่อหรือที่ตั้งที่ตรงกับคำค้นหา (case-insensitive)
         else:
-            #ดึงข้อมูลทั้งหมดจาก AllProduct มาเก็บไว้ใน show_product
-            show_product = AllProduct.objects.all()
-    #ถ้าคำขอไม่ใช่แบบ POST
+            # ถ้าไม่มีการระบุคำค้นหา
+            show_product = AllProduct.objects.all()  # ดึงข้อมูลสินค้าทั้งหมดจากฐานข้อมูล
     else:
-        #สร้างฟอร์มชื่อ Search1
-        form = Search1()
-    #วนลูปผ่านแต่ละสินค้าใน show_product
+        # ถ้า request method ไม่ใช่ POST
+        form = Search1()  # สร้างฟอร์มค้นหาใหม่
+
     for product in show_product:
-        #เช็คว่ามีค่า lastdate ของสินค้าและวันหมดอายุน้อยกว่าวันปัจจุบันหรือไม่
+        # วนลูปเช็คสินค้าทุกตัวใน show_product
         if product.lastdate and product.lastdate < timezone.now().date():
-            #ถ้าสินค้าหมดอายุ จะเพิ่ม ID ของสินค้านั้นลงใน expired_products
-            expired_products.append(product.id)
-    #ส่งผลลัพธ์ไปยังเทมเพลต show_product_search.html
+            # ถ้าสินค้ามีวันที่สิ้นสุดการเช่า (lastdate) และวันที่นั้นน้อยกว่าวันปัจจุบัน
+            expired_products.append(product.id)  # เพิ่ม ID ของสินค้านั้นในลิสต์ expired_products
+
     return render(req, 'shop/show_product_search.html', {
-        #ส่งตัวแปร show_product ไปยังเทมเพลต
-        'show_product': show_product,
-        #ส่งตัวแปร categorys ไปยังเทมเพลต
-        'category': categorys,
-        #ส่งข้อมูลของ Provinces ทั้งหมดไปยังเทมเพลต
-        'provinces': Provinces.objects.all(),
-        #ส่งลิสต์ expired_products ไปยังเทมเพลต
-        'expired_products': expired_products
+        # ส่งข้อมูลไปยัง template 'shop/show_product_search.html'
+        'show_product': show_product,  # ส่งข้อมูลสินค้าไปยัง template
+        'category': categorys,  # ส่งข้อมูลหมวดหมู่สินค้าไปยัง template
+        'provinces': Provinces.objects.all(),  # ดึงข้อมูลจังหวัดทั้งหมดและส่งไปยัง template
+        'expired_products': expired_products  # ส่งข้อมูลสินค้าที่หมดอายุไปยัง template
     })
+
 
 
 #หน้าคำแนะนำ
@@ -60,122 +54,95 @@ def advice_view(req):
 
 #แสดงอุปกรณ์ทั้งหมด
 def product(request):
-    # ดึงข้อมูลทั้งหมดจากโมเดล Category มาเก็บไว้ในตัวแปร category
-    category = Category.objects.all()
-    # สร้างลิสต์เปล่าชื่อ expired_products เพื่อใช้เก็บ ID ของสินค้าที่หมดอายุ
-    expired_products = []
+    category = Category.objects.all()  # ดึงข้อมูลหมวดหมู่สินค้าทั้งหมดจากฐานข้อมูล
+    expired_products = []  # สร้างลิสต์ว่างเพื่อเก็บ ID ของสินค้าที่หมดอายุ
 
     if request.method == 'POST':
-        # ดึงค่าจากฟอร์มที่ชื่อ search_query มาเก็บในตัวแปร search_query
-        search_query = request.POST.get('search_query')
-        # ค้นหาสินค้าในโมเดล AllProduct โดยเช็คจาก product_name ที่มีค่านั้นอยู่
+        # ถ้า request method เป็น POST
+        search_query = request.POST.get('search_query')  # รับค่าคำค้นหาจากฟอร์ม
         allproduct = AllProduct.objects.filter(product_name__icontains=search_query)
+        # ค้นหาสินค้าที่มีชื่อที่ตรงกับคำค้นหา (case-insensitive)
     else:
-        # ถ้าคำขอไม่ใช่แบบ POST ดึงข้อมูลทั้งหมดจาก AllProduct มาเก็บไว้ใน allproduct
-        allproduct = AllProduct.objects.all()
+        # ถ้า request method ไม่ใช่ POST
+        allproduct = AllProduct.objects.all()  # ดึงข้อมูลสินค้าทั้งหมดจากฐานข้อมูล
 
-    # วนลูปผ่านแต่ละสินค้าใน allproduct
     for product in allproduct:
-        # เช็คว่ามีค่า lastdate ของสินค้าและวันหมดอายุน้อยกว่าวันปัจจุบันหรือไม่
+        # วนลูปเช็คสินค้าทุกตัวใน allproduct
         if product.lastdate and product.lastdate < timezone.now().date():
-            # ถ้าสินค้าหมดอายุ จะเพิ่ม ID ของสินค้านั้นลงใน expired_products
-            expired_products.append(product.id)
+            # ถ้าสินค้ามีวันที่สิ้นสุดการเช่า (lastdate) และวันที่นั้นน้อยกว่าวันปัจจุบัน
+            expired_products.append(product.id)  # เพิ่ม ID ของสินค้านั้นในลิสต์ expired_products
 
-    # สร้าง context เพื่อส่งตัวแปรไปยังเทมเพลต
     context = {
-        'allproduct': allproduct,  # ส่งตัวแปร allproduct ไปยังเทมเพลต
-        'category': category,      # ส่งตัวแปร category ไปยังเทมเพลต
-        'provinces': Provinces.objects.all(),  # ส่งข้อมูลของ Provinces ทั้งหมดไปยังเทมเพลต
-        'expired_products': expired_products  # ส่งลิสต์ expired_products ไปยังเทมเพลต
+        'allproduct': allproduct,  # ส่งข้อมูลสินค้าไปยัง context
+        'category': category,  # ส่งข้อมูลหมวดหมู่สินค้าไปยัง context
+        'provinces': Provinces.objects.all(),  # ดึงข้อมูลจังหวัดทั้งหมดและส่งไปยัง context
+        'expired_products': expired_products  # ส่งข้อมูลสินค้าที่หมดอายุไปยัง context
     }
-    # ส่งผลลัพธ์ไปยังเทมเพลต show_product.html
-    return render(request, 'shop/show_product.html', context)
+    return render(request, 'shop/show_product.html', context)  # ส่งข้อมูลไปยัง template 'shop/show_product.html'
+
 
 
 
 #แสดงหมวดหมู่
 def product_category(request, id):
-    # ดึงข้อมูลทั้งหมดจากโมเดล Category มาเก็บไว้ในตัวแปร categorys
-    categorys = Category.objects.all()
-    # สร้างลิสต์เปล่าชื่อ expired_products เพื่อใช้เก็บ ID ของสินค้าที่หมดอายุ
-    expired_products = []
+    categorys = Category.objects.all()  # ดึงข้อมูลหมวดหมู่สินค้าทั้งหมดจากฐานข้อมูล
+    expired_products = []  # สร้างลิสต์ว่างเพื่อเก็บ ID ของสินค้าที่หมดอายุ
 
-    # ดึงข้อมูลของ Category ที่มี primary key เท่ากับ id มาเก็บในตัวแปร category
-    category = Category.objects.get(pk=id)
-    
+    category = Category.objects.get(pk=id)  # ดึงข้อมูลหมวดหมู่สินค้าตาม ID ที่ระบุ
+
     if request.method == 'POST':
-        # ดึงค่าจากฟอร์มที่ชื่อ search_query มาเก็บในตัวแปร search_query
-        search_query = request.POST.get('search_query')
-        # กรองข้อมูลตามคำค้นหาในโมเดล AllProduct โดยเช็คจาก product_name ที่มีค่านั้นอยู่
+        # ถ้า request method เป็น POST
+        search_query = request.POST.get('search_query')  # รับค่าคำค้นหาจากฟอร์ม
         allproduct = AllProduct.objects.filter(product_name__icontains=search_query)
+        # ค้นหาสินค้าที่มีชื่อที่ตรงกับคำค้นหา (case-insensitive)
     else:
-        # ถ้าไม่มีการส่งคำค้นหามา กรองข้อมูลจาก AllProduct ตามหมวดหมู่ category
-        allproduct = AllProduct.objects.filter(category=category)
+        # ถ้า request method ไม่ใช่ POST
+        allproduct = AllProduct.objects.filter(category=category)  # ดึงข้อมูลสินค้าที่อยู่ในหมวดหมู่นั้น ๆ
 
-    # วนลูปผ่านแต่ละสินค้าใน allproduct
     for product in allproduct:
-        # เช็คว่ามีค่า lastdate ของสินค้าและวันหมดอายุน้อยกว่าวันปัจจุบันหรือไม่
+        # วนลูปเช็คสินค้าทุกตัวใน allproduct
         if product.lastdate and product.lastdate < timezone.now().date():
-            # ถ้าสินค้าหมดอายุ จะเพิ่ม ID ของสินค้านั้นลงใน expired_products
-            expired_products.append(product.id)
+            # ถ้าสินค้ามีวันที่สิ้นสุดการเช่า (lastdate) และวันที่นั้นน้อยกว่าวันปัจจุบัน
+            expired_products.append(product.id)  # เพิ่ม ID ของสินค้านั้นในลิสต์ expired_products
 
-    # สร้าง context เพื่อส่งตัวแปรไปยังเทมเพลต
     context = {
-        'allproduct': allproduct,  # ส่งตัวแปร allproduct ไปยังเทมเพลต
-        'category': categorys,     # ส่งตัวแปร categorys ไปยังเทมเพลต
-        'provinces': Provinces.objects.all(),  # ส่งข้อมูลของ Provinces ทั้งหมดไปยังเทมเพลต
-        'expired_products': expired_products   # ส่งลิสต์ expired_products ไปยังเทมเพลต
+        'allproduct': allproduct,  # ส่งข้อมูลสินค้าไปยัง context
+        'category': categorys,  # ส่งข้อมูลหมวดหมู่สินค้าไปยัง context
+        'provinces': Provinces.objects.all(),  # ดึงข้อมูลจังหวัดทั้งหมดและส่งไปยัง context
+        'expired_products': expired_products  # ส่งข้อมูลสินค้าที่หมดอายุไปยัง context
     }
-    # ส่งผลลัพธ์ไปยังเทมเพลต show_product_category.html
-    return render(request, 'shop/show_product_category.html', context)
+    return render(request, 'shop/show_product_category.html', context)  # ส่งข้อมูลไปยัง template 'shop/show_product_category.html'
 
 
-#โชว์รายละเอียด
+# โชว์รายละเอียด
 @login_required
 def Showdetall_product(req, product_id):
-    # ดึงข้อมูลของสินค้าที่มี primary key เท่ากับ product_id มาเก็บในตัวแปร one_product
+    # ดึงข้อมูลสินค้าจากฐานข้อมูลตาม product_id
     one_product = AllProduct.objects.get(pk=product_id)
-    
-    # สร้าง context เพื่อส่งตัวแปรไปยังเทมเพลต
     context = {'product': one_product}
-    
-    # พิมพ์ค่า datetime ของสินค้า (สำหรับการดีบัก)
-    print(one_product.datetime)
-    
-    # ส่งผลลัพธ์ไปยังเทมเพลต showdetall_product.html
+    print(one_product.datetime)  # พิมพ์วันที่และเวลาของสินค้านั้นออกมาในคอนโซล
+    # ส่งข้อมูลสินค้าไปยัง template 'shop/showdetall_product.html'
     return render(req, 'shop/showdetall_product.html', context)
 
-
-# ฟังก์ชันลบ
+# ลบของในตระกร้า
 def delete(req, id):
-    # พิมพ์ค่า id ออกมา (สำหรับการดีบัก)
-    print(id)
-    
-    # ดึงข้อมูลของ CartItem ที่มี primary key เท่ากับ id และลบออบเจ็กต์นั้นออกจากฐานข้อมูล
-    CartItem.objects.get(pk=id).delete()
-    
+    print(id)  # พิมพ์ ID ของ CartItem ที่จะถูกลบออกมาในคอนโซล
+    CartItem.objects.get(pk=id).delete()  # ลบ CartItem ตาม ID ที่ระบุ
     # เปลี่ยนเส้นทางไปยังเส้นทางที่ชื่อ 'cart'
     return redirect('cart')
 
-# ฟังก์ชันขาย-ซื้อจากตะกร้า
+# ลบของในตระกร้าเมื่อเช่าในตระกร้า
 def sell_buy_cart(req, id, cart):
-    # เรียกใช้ฟังก์ชัน delete เพื่อลบสินค้าที่อยู่ในตะกร้า
-    delete(req, cart)
-    
-    # เรียกใช้ฟังก์ชัน add_sell_buy เพื่อลงบันทึกการขาย-ซื้อสินค้า
-    return add_sell_buy(req, id)
+    delete(req, cart)  # ลบรายการจากตระกร้า
+    return add_sell_buy(req, id)  # ดำเนินการเช่าสินค้าต่อ
 
-
-# เพิ่มของลงตะกร้า
+# เพิ่มของลงตระกร้า
 def add_to_cart(req, product_id):
-    # ดึงข้อมูลของสินค้าที่มี primary key เท่ากับ product_id ถ้าไม่เจอจะคืนค่า 404
-    product = get_object_or_404(AllProduct, pk=product_id)
+    product = get_object_or_404(AllProduct, pk=product_id)  # ดึงข้อมูลสินค้าจากฐานข้อมูลตาม product_id
     
-    # ดึงข้อมูลของตะกร้าสินค้าที่ผู้ใช้สร้างไว้ ถ้าไม่มีจะสร้างใหม่
-    cart, created = Cart.objects.get_or_create(user=req.user)
+    cart, created = Cart.objects.get_or_create(user=req.user)  # ดึงหรือสร้างตะกร้าสินค้าของผู้ใช้
     
-    # ดึงข้อมูลของ CartItem ที่ตรงกับ cart และ product ถ้าไม่มีจะสร้างใหม่
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, user=req.user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, user=req.user)  # ดึงหรือสร้าง CartItem ที่เชื่อมกับ cart และ product
     
     if not created:
         # ถ้า CartItem นี้มีอยู่แล้ว เพิ่มจำนวนสินค้าและคำนวณราคาสินค้าใหม่
@@ -188,148 +155,89 @@ def add_to_cart(req, product_id):
         cart_item.price = product.product_price
         cart_item.save()
     
-    # เปลี่ยนเส้นทางไปยังเส้นทางที่ชื่อ 'cart'
-    return redirect('cart')
+    return redirect('cart')  # เปลี่ยนเส้นทางไปยังเส้นทางที่ชื่อ 'cart'
 
-
-#ตระกร้า
+# ตระกร้า
 @login_required
 def cart(req):
-    # ดึงข้อมูลของ CartItem ทั้งหมดที่ตรงกับผู้ใช้ปัจจุบัน
-    Cart = CartItem.objects.filter(user=req.user)
-    
-    # สร้าง context เพื่อส่งตัวแปรไปยังเทมเพลต
-    context = {'Cart': Cart}
-    
-    # ส่งผลลัพธ์ไปยังเทมเพลต cart.html
-    return render(req, 'shop/cart.html', context)
+    Cart = CartItem.objects.filter(user=req.user)  # ดึงข้อมูล CartItem ทั้งหมดที่เชื่อมกับผู้ใช้
+    context = {'Cart': Cart}  # สร้าง context ที่มีข้อมูล CartItem
+    return render(req, 'shop/cart.html', context)  # ส่งข้อมูลไปยัง template 'shop/cart.html'
 
-
-# สิ้นสุดการเช่า
+# การเช่าสำเร็จ
 def add_sell_buy(req, id):
-    # ดึงข้อมูลของสินค้าที่มี primary key เท่ากับ id มาเก็บในตัวแปร product
-    product = AllProduct.objects.get(pk=id)
-    
-    # สร้างออบเจ็กต์ Sell_Buy โดยกำหนดค่าจากข้อมูลที่รับเข้ามา
+    product = AllProduct.objects.get(pk=id)  # ดึงข้อมูลสินค้าจากฐานข้อมูลตาม product_id
     data = Sell_Buy.objects.create(
-        user=req.user,  # กำหนดผู้ใช้ที่ทำการซื้อขาย
-        product=product,  # กำหนดสินค้าที่ทำการซื้อขาย
-        location=req.user.Profile.first().locations,  # ดึงข้อมูลสถานที่จากโปรไฟล์ของผู้ใช้
-        phon=req.user.Profile.first().phon_numbers,  # ดึงข้อมูลเบอร์โทรศัพท์จากโปรไฟล์ของผู้ใช้
+        user=req.user,
+        product=product,
+        location=req.user.Profile.first().locations,
+        phon=req.user.Profile.first().phon_numbers,
     )
 
-    # บันทึกข้อมูลการซื้อขาย
-    data.save()
-    
-    # ลดจำนวนสินค้าลง 1 หน่วย
-    product.quantity -= 1
-    product.save()
-    
-    # สร้าง context เพื่อส่งตัวแปรไปยังเทมเพลต
-    context = {
-        'product': product,
-    }
-    
-    # ส่งผลลัพธ์ไปยังเทมเพลต Complete_buyproduct.html พร้อมกับ context ที่สร้างขึ้น
-    return render(req, 'shop/Complete_buyproduct.html', context)
+    data.save()  # บันทึกข้อมูลการเช่าลงในฐานข้อมูล
+    product.quantity -= 1  # ลดจำนวนสินค้าลง 1
+    product.save()  # บันทึกการเปลี่ยนแปลงสินค้าลงในฐานข้อมูล
+    context = {'product': product}  # สร้าง context ที่มีข้อมูลสินค้า
+    return render(req, 'shop/Complete_buyproduct.html', context)  # ส่งข้อมูลไปยัง template 'shop/Complete_buyproduct.html'
 
-
-
-#ค้นหาจังหวัด
+# ค้นหาจังหวัด
 def show_product_province(req, id):
-    # ดึงข้อมูลทั้งหมดจากโมเดล Provinces มาเก็บไว้ในตัวแปร provinces
-    provinces = Provinces.objects.all()
-    
-    # ดึงข้อมูลทั้งหมดจากโมเดล Category มาเก็บไว้ในตัวแปร categorys
-    categorys = Category.objects.all()
-    
-    # ดึงข้อมูลของจังหวัดที่มี primary key เท่ากับ id มาเก็บในตัวแปร province
-    province = Provinces.objects.get(pk=id)
-    
-    # สร้างลิสต์เปล่าชื่อ expired_products เพื่อใช้เก็บ ID ของสินค้าที่หมดอายุ
-    expired_products = []
+    provinces = Provinces.objects.all()  # ดึงข้อมูลจังหวัดทั้งหมดจากฐานข้อมูล
+    categorys = Category.objects.all()  # ดึงข้อมูลหมวดหมู่สินค้าทั้งหมดจากฐานข้อมูล
+    province = get_object_or_404(Provinces, pk=id)  # ดึงข้อมูลจังหวัดตาม ID ที่ระบุ
+    expired_products = []  # สร้างลิสต์ว่างเพื่อเก็บ ID ของสินค้าที่หมดอายุ
 
     if req.method == 'POST':
-        # ดึงค่าจากฟอร์มที่ชื่อ search_query มาเก็บในตัวแปร search_query
-        search_query = req.POST.get('search_query')
-        
-        # กรองข้อมูลตามคำค้นหาในโมเดล AllProduct โดยเช็คจาก product_name ที่มีค่านั้นอยู่
-        allproduct = AllProduct.objects.filter(product_name__icontains=search_query)
+        search_query = req.POST.get('search')  # รับค่าคำค้นหาจากฟอร์ม
+        # กรองข้อมูลตามคำค้นหาและจังหวัดที่เลือก
+        allproduct = AllProduct.objects.filter(province=province, product_name__icontains=search_query)
     else:
-        # ถ้าไม่มีการส่งคำค้นหามา กรองข้อมูลจาก AllProduct ตามจังหวัด province
-        allproduct = AllProduct.objects.filter(province=province)
+        # ถ้าไม่มีการส่งคำค้นหามา
+        allproduct = AllProduct.objects.filter(province=province)  # ดึงข้อมูลสินค้าที่อยู่ในจังหวัดนั้น ๆ
 
-    # วนลูปผ่านแต่ละสินค้าใน allproduct
     for product in allproduct:
-        # เช็คว่ามีค่า lastdate ของสินค้าและวันหมดอายุน้อยกว่าวันปัจจุบันหรือไม่
+        # วนลูปเช็คสินค้าทุกตัวใน allproduct
         if product.lastdate and product.lastdate < timezone.now().date():
-            # ถ้าสินค้าหมดอายุ จะเพิ่ม ID ของสินค้านั้นลงใน expired_products
-            expired_products.append(product.id)
+            # ถ้าสินค้ามีวันที่สิ้นสุดการเช่า (lastdate) และวันที่นั้นน้อยกว่าวันปัจจุบัน
+            expired_products.append(product.id)  # เพิ่ม ID ของสินค้านั้นในลิสต์ expired_products
 
-    # สร้าง context เพื่อส่งตัวแปรไปยังเทมเพลต
     context = {
-        'allproduct': allproduct,  # ส่งตัวแปร allproduct ไปยังเทมเพลต
-        'category': categorys,     # ส่งตัวแปร categorys ไปยังเทมเพลต
-        'provinces': provinces,    # ส่งตัวแปร provinces ไปยังเทมเพลต
-        'expired_products': expired_products  # ส่งลิสต์ expired_products ไปยังเทมเพลต
+        'allproduct': allproduct,  # ส่งข้อมูลสินค้าไปยัง context
+        'category': categorys,  # ส่งข้อมูลหมวดหมู่สินค้าไปยัง context
+        'provinces': provinces,  # ส่งข้อมูลจังหวัดไปยัง context
+        'expired_products': expired_products,  # ส่งข้อมูลสินค้าที่หมดอายุไปยัง context
+        'selected_province': province  # เพิ่มข้อมูลจังหวัดที่เลือกใน context
     }
-    
-    # ส่งผลลัพธ์ไปยังเทมเพลต show_product_province.html
-    return render(req, 'shop/show_product_province.html', context)
+    return render(req, 'shop/show_product_province.html', context)  # ส่งข้อมูลไปยัง template 'shop/show_product_province.html'
 
-    
-
-# ฟังก์ชันปล่อยเช่า
+# ปล่อยเช่า
 @login_required
 def buy_product(request):
-    # เช็คว่าถ้า request เป็นแบบ POST
     if request.method == 'POST':
-        # สร้างฟอร์ม UploadForm โดยรับข้อมูลจาก request.POST และ request.FILES
         form = UploadForm(request.POST, request.FILES)
-        
-        # เช็คว่าฟอร์ม valid หรือไม่
         if form.is_valid():
-            # กำหนดผู้ใช้ปัจจุบันให้กับฟอร์ม
-            form.save(commit=False).user = request.user
-            # บันทึกฟอร์ม
-            form.save()
-            # เปลี่ยนเส้นทางไปยัง /shop/product/
-            return redirect('/shop/product/')
+            form.save(commit=False).user = request.user  # กำหนดผู้ใช้ที่ปล่อยเช่า
+            form.save()  # บันทึกข้อมูลการปล่อยเช่าลงในฐานข้อมูล
+            return redirect('/shop/product/')  # เปลี่ยนเส้นทางไปยังหน้าสินค้าทั้งหมด
         else:
-            # ถ้าฟอร์มไม่ valid สร้างฟอร์มใหม่โดยรับข้อมูลจาก request.POST และ request.FILES
             form = UploadForm(request.POST, request.FILES)
     else:
-        # ถ้า request ไม่ใช่แบบ POST สร้างฟอร์มเปล่า
         form = UploadForm()
 
-    # ส่งฟอร์มไปยังเทมเพลต buy_product.html
-    return render(request, 'shop/buy_product.html', {'form': form})
+    return render(request, 'shop/buy_product.html', {'form': form})  # ส่งฟอร์มไปยัง template 'shop/buy_product.html'
 
-
-# ฟังก์ชันแก้ไขสินค้า
+# แก้ไข
 def edit_product(request, id):
-    # ดึงข้อมูลของสินค้าที่มี primary key เท่ากับ id มาเก็บในตัวแปร allproduct
-    allproduct = AllProduct.objects.get(pk=id)
-    
-    # เช็คว่าถ้า request เป็นแบบ POST
+    allproduct = AllProduct.objects.get(pk=id)  # ดึงข้อมูลสินค้าจากฐานข้อมูลตาม product_id
     if request.method == 'POST':
-        # สร้างฟอร์ม EditForm โดยรับข้อมูลจาก request.POST, request.FILES และ instance ของ allproduct
         form = EditForm(request.POST, request.FILES, instance=allproduct)
-        
-        # เช็คว่าฟอร์ม valid หรือไม่
         if form.is_valid():
-            # กำหนดผู้ใช้ปัจจุบันให้กับฟอร์ม
-            form.save(commit=False).user = request.user
-            # บันทึกฟอร์ม
-            form.save()
-            # เปลี่ยนเส้นทางไปยัง /user/Edit_sell_product/
-            return redirect('/user/Edit_sell_product/')
+            form.save(commit=False).user = request.user  # กำหนดผู้ใช้ที่แก้ไขสินค้า
+            form.save()  # บันทึกการแก้ไขสินค้าลงในฐานข้อมูล
+            return redirect('/user/Edit_sell_product/')  # เปลี่ยนเส้นทางไปยังหน้าการแก้ไขสินค้าทั้งหมด
         else:
-            # ถ้าฟอร์มไม่ valid สร้างฟอร์มใหม่โดยรับข้อมูลจาก request.POST, request.FILES และ instance ของ allproduct
             form = EditForm(request.POST, request.FILES, instance=allproduct)
     else:
-        # ถ้า request ไม่ใช่แบบ POST สร้างฟอร์มโดยมี instance ของ allproduct
         form = EditForm(instance=allproduct)
 
-    # ส่งฟอร์มไปยังเทมเพลต edit_product.html
-    return render(request, 'shop/edit_product.html', {'form': form})
+    return render(request, 'shop/edit_product.html', {'form': form})  # ส่งฟอร์มไปยัง template 'shop/edit_product.html'
