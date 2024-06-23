@@ -119,7 +119,7 @@ def delete_sell(req, id):
     return redirect('/user/Edit_sell_product/')
 
 #ลบของในหน้าเช่า
-def delete_buy(req, id):
+def Cancel_order(req, id):
     print(id)
     sell_buy_instance = Sell_Buy.objects.get(pk=id)
     product = sell_buy_instance.product

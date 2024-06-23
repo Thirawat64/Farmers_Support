@@ -19,7 +19,7 @@ urlpatterns = [
     path('Edit_sell_product/',view=views.Edit_sell_product , name='Edit_sell_product'),
     # path('edit/Allproduct/<int:id>/',view=views.update_product,name='edit_product'),
     path('delete_sell/<int:id>/',delete_sell, name="delete_sell"),
-    path('delete_buy/<int:id>/',delete_buy, name="delete_buy"),
+    path('Cancel_order/<int:id>/',Cancel_order, name="Cancel_order"),
     path('See_rentals_product/<int:id>/',See_rentals_product, name="See_rentals_product"),
 
 
