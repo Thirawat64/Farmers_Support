@@ -92,7 +92,7 @@ def editprofile(request):
 
     return render(request, 'users/edit_profile.html', {'form': form, 'profile': profile})
 
-# แก้ไขหน้าเช่า
+# หน้าเช่า
 def Edit_sell_product(req):
     # ดึงข้อมูลสินค้าที่ผู้ใช้ปล่อยเช่า พร้อมนับจำนวนการเช่าที่ผู้ใช้ยังไม่ได้อ่าน
     sell = AllProduct.objects.filter(user=req.user).annotate(unread_sells_count=Count('sells', filter=Q(sells__read=False)))
@@ -100,7 +100,7 @@ def Edit_sell_product(req):
         print(i.sells.filter(read=False).count())
     return render(req, 'users/edit_sell_product.html', {'sell': sell})
 
-# แก้ไขหน้าปล่อยเช่า
+# หน้าปล่อยเช่า
 def view_rental_history(req):
     # ดึงข้อมูลการเช่าทั้งหมดของผู้ใช้ที่เข้าสู่ระบบ
     buy = Sell_Buy.objects.filter(user=req.user)
