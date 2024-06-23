@@ -27,7 +27,10 @@ def Logout(request):
     logout(request)
     return redirect('/')
 
-# ลืมรหัสผ่าน จัดการกระบวนการรีเซ็ตรหัสผ่าน
+# ลืมรหัสผ่าน จัดการกระบวนการรีเซ็ตรหัสผ่าน ใน Django คลาส PasswordResetViewและPasswordResetConfirmViewเป็นส่วนหนึ่งของ Django's
+# ด้วยการกำหนดค่าเทมเพลตและ URL คุณสามารถปรับแต่งประสบการณ์ผู้ใช้โดยไม่ต้องเขียนฟังก์ชันการทำงานพื้นฐานด้วยตนเอง
+
+
 
 class ForgotPasswordView(PasswordResetView):
     # template_name: ระบุเทมเพลต HTML ที่จะใช้สำหรับแสดงหน้าให้ผู้ใช้กรอกอีเมลเพื่อขอรีเซ็ตรหัสผ่าน. ในที่นี้คือ 'main/forgot_password.html'.
