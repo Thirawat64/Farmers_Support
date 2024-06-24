@@ -151,22 +151,29 @@ def cart(req):
     return render(req,'shop/cart.html',context)
 
 #การเช่าสำเร็จ
-def add_sell_buy(req,id):
+from django.utils import timezone
+
+def add_sell_buy(req, id):
     product = AllProduct.objects.get(pk=id)
     data = Sell_Buy.objects.create(
-        user = req.user,
-        product = product,
-        location = req.user.Profile.first().locations,
-        phon = req.user.Profile.first().phon_numbers,
+        user=req.user,
+        product=product,
+        location=req.user.Profile.first().locations,
+        phon=req.user.Profile.first().phon_numbers,
     )
 
     data.save()
     product.quantity -= 1
     product.save()
+    
+    current_time = timezone.now()
+    
     context = {
-        'product':product,
+        'product': product,
+        'current_time': current_time,  
     }
-    return render(req, 'shop/Complete_buyproduct.html',context)
+    return render(req, 'shop/Complete_buyproduct.html', context)
+
 
 
 
